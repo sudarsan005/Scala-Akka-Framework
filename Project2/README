@@ -1,0 +1,68 @@
+COP5615 Distributed Operating System Principles - Fall 2014
+------------------------------------------------------------
+
+
+Project 2 - README
+------------------
+
+
+1) Team Members
+
+Group Member 1:
+---------------
+Name: Vineeta Chelamkuri
+UFID: 05149111
+Email ID: vchelamkuri@ufl.edu
+
+Group Member 2:
+---------------
+Name: RajaDinesh Kumar Murugesan
+UFID: 41181658
+Email ID: mrajadinesh@ufl.edu
+
+Group Member 3:
+---------------
+Name: Sudarsanan Janakiraman
+UFID: 49897688
+Email ID: sudarsan.jg@ufl.edu
+
+2) What is working?
+
+Both Gossip Algorithm and Push-Sum Algorithm are working for all the topologies.
+
+
+3) What is the largest network you managed to deal with for each type of topology and algorithm?
+
+The below table lists the largest network we have dealed with for each type of topology and algorithm:
+
+Algorithm	|	Full	|	2D	|	Imp2D	|	Line
+-----------------------------------------------------------------------------
+Gossip		|	100000	|	100000	|	100000	|	20000
+Push-Sum	|	20000	|	20000	|	20000	|	20000
+
+
+4) Instructions for building and running the program in Linux environment:
+--------------------------------------------------------------------------
+
+Set up the required folder structure:
+-------------------------------------
+a) In the Linux environment, create a folder called Project2.
+b) Download Akka 2.3.6 distribution for Scala 2.11. Unzip it and copy the contents from "akka_2.11-2.3.6\lib" folder to Project2 folder.
+c) Download scala-2.11.2 and extract it into Project2 folder.
+d) Place project2.scala file in Project2 folder.
+e) Place application.conf file in "Project2\scala-2.11.2\bin" folder. 
+ 
+To build project2.scala:
+------------------------
+a) Open command prompt.
+b) Navigate to "Project2\scala-2.11.2\bin" path and issue the following command:
+./scalac -cp "../../akka/*:../../scala-library-2.11.2.jar:." ../../project2.scala
+
+To run project2.scala:
+--------------------------------
+a) Open command prompt.
+b) Navigate to "Project2\scala-2.11.2\bin" path and issue the following command. 
+./scala -cp "../../akka/*:../../scala-library-2.11.2.jar:." project2 numNodes topology algorithm
+
+Where numNodes is the number of actors involved, topology is one of full, 2D, line, imp2D, algorithm is one of gossip, push-sum.
+

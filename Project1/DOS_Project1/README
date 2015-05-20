@@ -1,0 +1,902 @@
+COP5615 Distributed Operating System Principles - Fall 2014
+------------------------------------------------------------
+
+
+Group Member 1:
+---------------
+Name: Vineeta Chelamkuri
+UFID: 05149111
+Email ID: vchelamkuri@ufl.edu
+
+Group Member 2:
+---------------
+Name: RajaDinesh Kumar Murugesan
+UFID: 41181658
+Email ID: mrajadinesh@ufl.edu
+
+Group Member 3:
+---------------
+Name: Sudarsanan Janakiraman
+UFID: 49897688
+Email ID: sudarsan.jg@ufl.edu
+
+Project 1 - Report
+------------------
+
+
+Contents:
+---------
+1) Size of the work unit
+2) The results of running the program for k = 4 and k = 5
+3) The running time for k = 4 and k = 5
+4) Coins with most 0s
+5) The largest number of working machines used
+6) Instructions for building and running the program in Linux environment
+
+
+1) Size of the work unit:
+-------------------------
+
+The program has a master actor and 12 worker actors. The master sends a total of 300 messages to the workers to get the work done. Each worker then creates 100000 random strings (with a particular string length determined by the master) and finds the hashes for those strings. The bitcoins with the required number of leading zeros will be reported back to the master for printing. In case of distributed implementation, the server's master acts as a super master and assigns work to the masters running on other machines.
+
+We have chosen 100000 as the size of work unit (or the number of sub-problems that a worker gets in a single request). We determined this size based on the results which we have obtained by running our program on lin114-xx machine. As we increased the k value, with number of sub-problems lesser than 100000, we were getting lesser number of results. Therefore, we had to increase the number of messages (to 300) and the size of work unit (to 100000) in such a way that we could get a reasonable number of results for higher k values. With these values, we also made sure that our program terminates within 5 minutes when run (individually as server) on lin114-xx machine in the CISE Computer lab. The total number of strings that would be verified on a single machine for 5 minutes would be 30 million strings (300 * 100000).
+
+Also, we have determined the number of workers based on the number of cores in the lab machine (which is obtained by running nproc command). We used the below ratio for the number of workers. This resulted in a better utilization of the CPU cores:
+Number of Cores : Number of Workers = 1 : 1.5
+
+
+2) The results of running the program for k = 4 and k = 5:
+----------------------------------------------------------
+
+a) For k = 4
+------------
+
+time scala project1.scala 4
+
+[INFO] [09/18/2014 22:13:42.351] [main] [Remoting] Starting remoting
+[INFO] [09/18/2014 22:13:42.495] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://ServerMinerSystem@128.227.248.166:4455]
+[INFO] [09/18/2014 22:13:42.497] [main] [Remoting] Remoting now listens on addresses: [akka.tcp://ServerMinerSystem@128.227.248.166:4455]
+vchelamkuri6Pbu06i<W[62980    000059ed526f347a9e8342110391a50fb2c1c45c40678b465ea48d25ecb45c50
+vchelamkuri:GXpqG$.0K89636    000016f7134e37b7d856eef4922d5ee23c0c519e485bcf5d5704eabfb4957ad4
+vchelamkuriM6#%xRxm0tz%m22380    00002f80dcc89c73d604455d0e6ef1bc30c71db1ffb56441cda7f8607e67415b
+vchelamkuri\,za@bqO$@^kM71850    000031e2a40f40eb7b82b5a7353866a1b48eb6727b05b4fff2dc96082f056622
+vchelamkuri?SEFMN_j09`'x84683    0000df343efe436c52b6f2f33da0f35698b60a73c5025fd4917dce09934e648b
+vchelamkuri%\#}p-FISp:32879    000004405a3e7cf1e17faf42f745747a6d862ae0d560ac63573ad987f600b056
+vchelamkurin3|T:F(Dk=t88673    00006d5151e1489a187bb4326bb912bdeec5afa29149beca7c237800462b02bb
+vchelamkuri)e'ND8}{/WT>53027    0000751580b27ec3aa2146535022d76aae939f71dd8f0248ca568dc3210cd015
+vchelamkuri2u3OI^gYZejqbp12304    0000f38deb6acee0845289388a5868bcb3b3779c12b07ac49c55fd596fc1aaca
+vchelamkuri+vS+^!>p@1*4ae9`%j-93836    0000810f2da765e1282a038f6402a078a5cd0b59912a0e63336801d9145b21f4
+vchelamkuri!~@~(yX^sd5T]Vq9CM83240    00004e76527156d629ced49058572aab35dee6f8821b45c580aa1d88311fbc7a
+vchelamkurinweSRJqFj]H4T=9f5237    0000f876a5f250ce8eb1923a7cc95d9e04d9c24a5cbce08daa4921abe85119e4
+vchelamkuriUv3i0L2.i7K4"SP{28680    000033ae58a22943562f5cb2ffca681ec386ee3d5f243e3df62d4ca9bb37dc89
+vchelamkuriYr_~:l4,Vn/@%6Dkr20686    0000b03bbd5ca5e81e7d996fe82b06d1421170574136150b75f993e3427dd1a6
+vchelamkuri<52\P2]E\I^.{:s%f30361    00003047d74a1b56fdd981015cb91ce3ecc9b081580ee7202b6559753757f7d8
+vchelamkuri)p`r!llSr^Kf5a;ET89607    000006e26b8811f326a6897a64cc307cfd57bd6972404a1f977d149cc0e5c3d6
+vchelamkuri*|cA-6HqF5.210180    0000c1315f01a81de384f01d46008ea16098a746991b20e72bd39f03b3aaf49c
+vchelamkuri)u?v5C?"56!B98693    0000f82a4f6379e68d2a096c0218f41d67720c086ef73eb942646b75f498bdf6
+vchelamkuri)]zGp(pSApq:fy}3144    0000fb41c677d27843f3bfe2620c1276325e10b58fd796dc6da4096cbd5c1593
+vchelamkuri"ugF;AHq/R26399    0000ba8cecf48dd3426aaadcf92af55dabbcee1a80a6a2ebfe2df6e9a86e75da
+vchelamkuriWAEG]\xiZ326864    00009db028987551d3d3ef52e42cfbc9b7a3e7a7aa769c5c2dfd820c8e798e16
+vchelamkuri}3XNABSUvS36298    000033cff44026cdae34174241102d07e42337fd001fefcf9e37c4ab1da58cc2
+vchelamkurikC6|\|sh7K74556    0000d1f2bb76c631b51f62e8b51c61457b19e80cddc42d7400957f064969dbe1
+vchelamkuri*_RV(2.9w7k68822    000008a1fdfd6d423f943541e783dcf595f9bccfe888e7d403830d3857d0a461
+vchelamkuri8D4~}9[w7dyZ:p13623    000052b8ef2df3027304ca2440de65c2ee1a8ade8c79c7f5554083fe1a1160e9
+vchelamkuri5V6=*FgVeK"GV~36234    0000d94b67f13222cccc1baac207368660b48708dce4ef8b8b66c41725039aa2
+vchelamkuri;tIs%xHo!3n1_$52022    000079ed12d2e956b50763f5d79c7370359631e420412334a5143fed7b9ecd3d
+vchelamkuri_$3CA$|FaNm&<k56290    0000b78fec8ee9626fef29ddc8fed9c6f2e6b67fec70cc5b436332e3cd150eb3
+vchelamkuriIk|IL:TZA_EVT{87528    000034b5ff35ad8f9b95fa7532ddacee058644eddc0c02a2f6d1403bf5580c4f
+vchelamkuriBh-~oS*+%f;#o30361    00000510c566ca455e389b82b7fdda39d28f9953f5f063eb0b25403b7756a91c
+vchelamkuril#w_K<u><)&3,{oC14415    0000bd3f42735bd02ee8d2a1b1ad66002229496507f422fdbf5289b4c45120f2
+vchelamkuri:>e^x\Z>f5]oV2]GI<41529    00008ffe99f878e7635b74ec51ccbf34b286c0f91f93c4397e7870830c1b2f08
+vchelamkuriN^wS"PVg+.MxY)-Z@;@85703    00004a7c49e42dc038d4f8db84adc2d6a58252a226e939935145c5267ea78eea
+vchelamkuri3GPX2LOT0j*Nj3'9'iE91819    00005a064783ae4b6c03e6ae38e8032d1238f04988291057864a5586493ee5bc
+vchelamkurin]#BLLoAnRp5tt/E`t@97009    0000a4d3728d2c10a3dbb9774530e6eba9f93e45876e3b363e7841e262b32008
+vchelamkurit]6`uH)p7[Gd9>Q^60V99984    0000f22fa1e8b28965fe130bdab217bd9d6a52e99339b2ec4d3ab98e9ba20ee7
+vchelamkuriyRr-CFjTd!g,bMG8?28439    0000f43a93cdc8da0456cb37b50967e7811e53d4a3989df869c31c52f1cfd0cb
+vchelamkuriJ`.?/,b!d2xu59555    000057b3ba8bb023e784270247dd21e8a8eb975f20142d906f5b6683c2094c6b
+vchelamkuriacu#BWBpHvx571495    00009b85d2f28cc526d8744adbd21ec4231178e09b593de5f47f27c74fe8d765
+vchelamkuri6J+@1+4{gMWx7y20120    000009c293ef8674b13269de04340c9492792fb69a6db88f00c515c9d0b973f7
+vchelamkuri[FeOCR28VI"}?H41870    0000082aac5c9b6a033f323365aff1c6a04ac0009aa8e210cbb080b04dc2005d
+vchelamkurivd4@!kxC:@lZ%r51243    000029a158423d85e5d39a9ff1b25d320377c6f7474dfef6ea88ab9fea8f368f
+vchelamkuriQ>L.L3egdHp@A.55410    000091de95aa81d00fd264ed222425b069e56d97cb146d50eb671f228b5d4662
+vchelamkuriHN7|3Xo=oCe_2*Y24420    0000880170b04f284f5af6da404edf3f951caa506c43988024c8db22767d2bd5
+vchelamkuri#y'p/nA3mi/%7>x40174    0000cde44292cea086343e59d53d0e9ff2791b3d21bacda2a9ba71f7f20df8ae
+vchelamkuriG(Y)>4z3#|d)[Y52656    0000b253147f57a1d6a0d6fc6ff19b4fc6f57ae67b5539fd0e3b8b19f7079353
+vchelamkuriu"sfYP{milxU%L84539    0000b1b6b12213859a26d3e583d04a95ed4af4c9a3e3427f1d86c0d95bec926c
+vchelamkuriXKB^FCi}kl}6$i531192    00008e9287a9dfa43bc204edf6738e8c179fde7e760e4ce917d962fbdf730466
+vchelamkuri'fmI[iiZyP43204    0000c8883adb20a3aaba56e3d78d5b30075ee14eb878ca480b2da1f901f7cd28
+vchelamkuri-1KH,:Ppyu63170    0000e8846656dd8284ad7d8b9dfedbb3f00effa0214a10d250f412075877aeec
+vchelamkuria6LnB+rg7R'_~btL`{45264    00002a63e91d9c469f8bb4630e01d0c3277b8d4dc9c22f625cbcbf8158bb4cac
+vchelamkuriN.26#]%$9i[9720    0000789aa8f6b4445abcfc500758f7ba5554a350aa2cc76e75ec825691a1da06
+vchelamkuriePLvF)?Y-y411503    00000e9fcf597a366984ba26e2fcc74076846f6d10ffa12c937f5ff458aa20ce
+vchelamkuriuSx^E2vtF}425408    0000a39923ca1d278109e8680420cf3c5dbb7d3eba66126ac3c4fd237f78fe2e
+vchelamkuri1{w]T?4Ot/b29563    000039be8b35170b044ecc1863e9c75aedfbc0064a64edfc1d4534252cb7249c
+vchelamkuri7+)h]?\6O`'xV1<=_!P16237    00006d0a48f1d0572088ce7900cba2f7d5db1b669d21b57876c1371031dbe3cf
+vchelamkuri[JAWB*Z:w~n%}#E@\V"40660    00002c0993f71f8773835e04baf74dca23f8b5b21ccd652f1f0b09671b0de0af
+vchelamkuri|)dNxj@3xb[F*zirO)O49550    00001b597cceee05b98e56d5ed3cd9d5a32e0f4ebf0966b6835ba470cd9b6682
+vchelamkuri`cy~_`"hVNWP"^!@^G*57835    0000aba06c73cdbd13efccd94aa3a5af7a01cd384342e14626284569cb65df44
+vchelamkuri}PPA?p<UzP<dJH522    0000f86e1911a5cd9f2c6ac66ab7b97014b27d28c29534110448677a8f8dd7f4
+vchelamkuri`oL)eEk%moX(ZA22687    0000502203ad0e0528d30adc686b38d7fa6f1f50c59aaf68c014b3853750bf4f
+vchelamkuriGBbj!%1Q\:O/mE28794    0000b72c0c7b88e18cb8f0f4dde11f90b8f6a81d4667c7460e3ad0a1f58ee947
+vchelamkuriiz@+*_2C#4q|?"47613    000019a18073258f2048c26f469b812089f39e65dfe69a771a93701a0e69a92b
+vchelamkuriizP5wJ&N^g=7Lj61882    00002f8bbdfb7b7d37a6262d4a255be1a244326a64cfa4cd97781d25147bcf66
+vchelamkuri<"cs=Ie@uo]8^";"76999    00003b659db353672bf5f62c7269d461692a57d6ff2bdca59a7c9ab85af1fd7b
+vchelamkuriA_4?4JNU%{c7iTSn21561    0000a5e206644e7e0e9c8ec1442e15ec973b55cbaab583fea9e5506fe640057d
+vchelamkuriA!D1&[4pa6q&ijH12695    000047763b30434974ea92bb1a73c5339e1007da90d2eaaa08b5ba05d1776f5b
+vchelamkuri'XotfR,o,k.HUxg87620    0000eaf45d830e867504002301ab7943e06b68af2ef7ed405f9fe5993c3da20d
+vchelamkuri:KnI8Tbl7EBc0Yf98642    0000d586de91296cda9fbead6d2f39074443e94e08f310f62a3f8f9adb252643
+vchelamkuriZJ43$T~?u,wZud"$Y49210    00006985e68180ccfb77f8e6636abb7babb7c7e2e2f6b1b924cc88da897473cb
+vchelamkuriSDANWq3+4j1%V]9#}1058    00009c9c8cbaeed7d04073e0ce207bf6ecc7a2ac34630512e3d5753d6002869d
+vchelamkuriH|"'mx[T+H%wGP1{X11539    0000067ab997650b77239af9aad25bd560723e3551a5ee819707fa1d041fb50f
+vchelamkuriPxYtX1@xMh~!+PT1C83871    0000efea02fc4e5ddd9a33e14808bf5e33895772db3ee3688d78946634f0a53a
+vchelamkuri&,bs0%4xCh1nc!O^fY80426    0000701a9b45d5c1a4d41cef1ab07ce315f7d9299876484e87067988b22f476b
+vchelamkuriiY&$eDvmfQ&ZP4d@Cv$44122    00005caf7cc4648836eab07c80bf0a79732dc7d0a85669e5d20bd3aba0a13eb8
+vchelamkuriKN-oJ,P}&p:7N5486    0000966e55604f0594ded4ff0e8fcd7e4b52ef308b51fc88f9df58807e9526ef
+vchelamkuriz14orqk%s`Pu094323    0000f0a9187f3029dc41c8b224db7138e2df38921cb7ff6aceb73ebbd934cdb3
+vchelamkuriZQcD|nJ&f"G21641    00004b0038d935de311010cf6e8fa63be75090b476ec628ce284dc8aeab814ec
+vchelamkuri^2s$-sEU'&M25521    0000f285359023e88277738f3b1eed5173fc5af275c124b03c2f57546d103ab7
+vchelamkuriZ'J/N\lubPI85061    00006adb3326327aca27c44df426a04100ea088eb1f9e8fa9fcc2c5e1aa77f86
+vchelamkuri4>$+\rtzLg4>y8P~z=20879    0000993a90d9d29c1dc072858dd7f5a93c2aa1b9880d6cf4f84093cde1d152bc
+vchelamkuridOy(O5WRH5pD{(xQPa47261    000040467a6e02ff9a3aef7b6a444b0563808e170614318615769d0dbc722bb2
+vchelamkuri}@h,*MuIXCM{Dg>xX[92628    00005bb1c48ecabbded76caa412c92d18cccd828d81b2ed40bbea2c10ada74d5
+vchelamkuri`;7Pvw1g`>U,#<xR_\47959    0000da4f246148244aac9e21e34d40fd4ce2765a8e95e4e1aeed680766c83ace
+vchelamkuriwdx+L11DiI}`Bd6755    0000e19ae6034b5f85b63b7254217cf2682c1447c923e6b9c49bc96008587b99
+vchelamkuri#INwG|?_Jc_AGJ56746    000079cc7226c40123fdbbd202251f8ec28ea68fef7285f61303e71a06b46b43
+vchelamkurib2-UX9R,X8X"JM$&71049    0000f5eb8d943f5cf8899a1aa581ad7c897e1c8335fbab46dad2ea1610cfbd74
+vchelamkuriky3|:%mZNw{GfpgC79430    00001ba3b671448f9bd981589164ae59c3e4bc86223eb9df3e26d88745a728c6
+vchelamkuriAy^dQ@W&BBR~1225    0000c99018449480ca24c97ab2b0ce574ebfc543101d607407e7b14beff5ff32
+vchelamkuri<'@~/NEmG:w/=Cd8D8)30373    0000f9e137d6536b927b517e9efd5361cbaf9cf35b979505853f9ac5235c7003
+vchelamkurif/XWN3mWSA-^R"lfQ.|39266    0000f8ea3fbd324c780726141cd7bed0ba83d8c1a2447524b4ba98c4e5344678
+vchelamkuriqExs)Ud.i!58335    00001f83270e9a68988321ccc2cee39870b4c8b108097c0f9a09b2862c17ddab
+vchelamkurig(8'$Gu/W#87488    00007d4eba64cb2b81ae1d302fdc67a3420bec105b8a02f773539db446c08fcf
+vchelamkuris-'_V);bUjguC)>f_9675    000022ed5f7e732c552439bf44bda69909410800e56fbbbe5371092f834b1c80
+vchelamkurixB_!>WEl%Q05Pp0hfQD22931    0000fea37fb780503a79ffcdcfc6d7aedb6a049c532ebb8e5ac2e503c5ca3ea5
+vchelamkuri}.Pm6X;'}H~b~%nXk?#82515    0000e8dc381d040599856c898ec4b46e1a0620a0b7864c17c0f7102c2cc4d5b1
+vchelamkuri+jKMn.J6R^`92180    0000848eee92a457a8693af13e0f8e5efe06dfbba45faf9c612167b27efca591
+vchelamkuriNuwab=3t^wI)J17654    0000f45f289458299f2c3ce2dc9110fdeb5a0f9a6b12e8bcf233b1fe048ec2a8
+vchelamkuriv0DJvxGi|$91392    00006f5cf5cfb67d41f3dbb583c59aa8170f1124814185eed7da3073ae2d60bd
+vchelamkuriBJ.p<TGjMY237583    0000388158965375d73ba23d4d6b85d7d91fd1d0449de3d92841bc9a314b3d33
+vchelamkuri}w`s|Kee".|66971    00004b00b2f880ce1a3bb3548c588cee7790bc19a2a7a2cb4878824d6155c752
+vchelamkuri<JDV"~{qx?l74149    00006b40f7bdab4f7793365e4888ce1c6652cb1404b371f30dc7754b05d19e41
+vchelamkuri3<06phbUe"<<Gn31821    00006363e33931738740842fd887f6a05c5c911a5afa5833ee6e7e7bccc03de0
+vchelamkuri*.m3O[lU^{YNdr84033    00007181cdbee9d6960955ad03947ccc22374455cee25abf9b3a5f96fc0a687a
+vchelamkuritc:/\DAemdJ9842    00005beecc3e414000d6c449e4dd995f99cead16323e891db99d419eb12bc51c
+vchelamkuriQ1m[w"u9;$"20684    000042672842adcdc747ee19eafc01637a747a4e7b5a7ae09c9c1a1111617941
+vchelamkuri}@?UK#?[p@\29595    0000053db43025863b99e97143b16c56924f9e1ff6e53684caabad58574d1840
+vchelamkuri%`LYMZFN!|w62718    0000d507392d72930de60b9a7fc0860e9681200df062ae6879bd173ba10f1bb5
+vchelamkuriA:GL?U#6OK285776    000034715500ea8e0d66b14f48862f080f127f5f5c8e6e6927b6c94b291f96be
+vchelamkurifyg>r/kQ6Q\(78126    000039cd19918e873eab5799efa16b5f2245332b20bf43beee53388225078772
+vchelamkurih=xHdug`;^8f8/cHeu24168    00009ec8bb04966115877d2fb8f79e0ef5ffb61c811519b16d923f529f1eca56
+vchelamkuri&J=Ve}3<[#2!`^v[ZW50848    00006a781b59ce180304479bc8322f7cb313197ccf1c9b843cddaa8e58091fb8
+vchelamkuri'CZ+e7Of%):,>uy0aWF19138    00000c192115939a5e8641119d46ac2ba670077d5a463ae476691d8b1ef22172
+vchelamkuriu534'/m.MW9njyK(jz_49826    00000ba3c1cf0fbdec4a7c211fd6703ca9ba21e42e492d8279ca2afcff4eb812
+vchelamkuriMCrF-_#fR1z!Y(MYges89043    000048b17e5961b52679001da2f57a82063394b989bbddd8d1b12f8e0ed5c483
+vchelamkuri6$5yvQ9J8s7fm'(28427    0000215ad761ca6b8af7f2e8bfbe4dcc6c57dd38bb7dc61cfc093a19d31ed81d
+vchelamkuri%/*~`TT21[8Znul57778    0000daf17659fdcf21631953d56e8971cea0742782a33a10059ef0e470e1bcf5
+vchelamkuri~wF*(vx8G95U@1:``88016    0000e4dbf439c1fa99702af985304d1a1fc3fdbd5cdf1c74ee9b2aebe67d6511
+vchelamkuriteTSEM$A<^$K37083    0000dab342050b76f839bdd2771ddcb2fb6acbc463a7fa19fb2be038cb034065
+vchelamkuri"pAs&[N~br60045    00004901adb99ce060376b90d068f8a2204027e48735ec0ed00344a3d505cd24
+vchelamkuri,t*x5C+{#x65954    00002ea2c5846e6ec753b0fd9c73069f3e00ec6a15ec72d8e3035c46c65bdce3
+vchelamkuri3/OQxO(jKEK$b54418    000089047e70c44c2db73fc575cdbb839d3eae25ddc6878b86a473b5478c8aee
+vchelamkuri*3[RCYt'v.^*O55553    0000416b37849eb1ec48cd6c7741a43c43972cf6ec8600a8bb853155b1b65002
+vchelamkurip}2TZbt?OHG6hx9U705    00004c14b5938389ad184ab0eef5ff980c3d968cd02cfa21ab7c8e0194839dae
+vchelamkurifDS;eCfkp&a0-165154    0000dae9bc6d867ec0d572f95c47d8c6d5532eb3a037c9684dfc7db04bb6add4
+vchelamkuri+>xCok?Eq/tBJy86676    0000dd8fee0fe22818a3eab4deb8db4f699cf728d087a03f7149fbf4fe2e844a
+vchelamkurif-8Y6G,w?E,jA|}71184    0000cf74ea4cca481e6e85d647f8102f0aadee2165a97e62afb4ef73b51ffd32
+vchelamkuri9>\&9}7:0H=yIg7W{ix93342    00007d8c95b5ae0eb2d804c2ddd0cc46f00f9d5f68e76fe5bf15039eff5f00d0
+vchelamkurigkFi_*L7}?c,]0UO!5481    0000aeb9aa5d7676fbad713e41d92ef8df2ae093f53516b6cb74b1bb473a83df
+vchelamkurivvMhUxFH>5G8w.u:n10307    00006fc7b29266f53d773f4c72752d0ac99d5fcff25658e3f1a0a8346ff2f17f
+vchelamkuriHsU/ZQuA2t|;21524    0000516808727307415150e26a916b1924a5a6495a4ee972d878d3644b04d489
+vchelamkuriqL/^xt;ezV:TVzY52005    0000cdd89e1ed40bd4cf7f507a61c27f9a71dc852d3eaa9b2daa3166b2cdc901
+vchelamkuriKWF"asBNjZngTl`56803    0000d318c2e2afa49fd84deec48ea1ee61329439a46e8f64d135fdc5e8468a0a
+vchelamkuri<RO=%5=2[iOd}w)63392    0000d20fee179eb5bbf4d3eff38d09c2c7f71254fb58d416e2906074e24a4627
+vchelamkuri^HiaCLgq#"j}&Ov88183    00003b21d8a8fce581bb7ea96c53856770f89aaea3555d9c283a1f4901442208
+vchelamkuriC^^:+bqPfc=%N48135    0000c66ef90ae5cf8096c2ad6e9dab62facd14db3a6ae3eee47d5378a4a5cc82
+vchelamkurii/plo,|svk_QY52357    00001d4a9713463593ab5e58955724adb6742bfdd7ef02fffac9cb950cc3c3ee
+vchelamkuri2#7Kd9:=U5Nje59556    000087e747945d6f788856b735113cdce66b6b62c34a02bd0a98c37e1c3e8145
+vchelamkuri:G{7m(es%M*!Z96171    0000ba05524a75d2ec20dea65c013e914aef761621a9de869aae0646a52e1380
+vchelamkuri+vl9z6H$J+=>HryV6>192    000034881ec7c3d6b7b69e1eaeb1a72845f248b991c190f2c0cba8bef725355c
+vchelamkuriTl%8&_o/9^'*]5m{_g35929    0000c3e3057b46929a9c6d128268761eb672194ad56db1370fa6bc2e91822934
+vchelamkuri)NdVSqGZwxnx{^KK{|75855    00009e5fc4ab8d5ca1dbdc596408f9f2ee48b250ef42274727958d58fdca4b5d
+vchelamkuri\)$I8Rw2uet_aG~79371    00003cb36ee497f32d9d870e3a5a0a2f7b68bc17e4c8496397b2301505ef3cf4
+vchelamkuriUe!+Biyhz0w4492    000008612066abb8056260a023be886a5584beea7ad0bb326425c0c2e3ef20e0
+vchelamkurii5i^38*g]5*12121    0000c04dd53b963fd72128e55b672f32da171c600fb1f7a81d25aaaa0a2b5785
+vchelamkuri7*<JWlhrCRB38284    0000a9d3bf637c7594f51106d4d0dc77d703796e7090b8e32581ef5ff9fdf432
+vchelamkurie9\(vw?qbhX73054    0000bd15da03e50e1c46542e9c11e4e6c6b2c7164fbf8d7d7c8532f96b9ca2a1
+vchelamkuriVo1c;_-Do$<94345    0000be03ac05305b6ce34ec5b026d428827d4e65f1325bfa16ac3c07fbe42587
+vchelamkuri`)r<?)`(.i[&Fq)ti|683446    00001b3a5dc31ebb70ae3c04a3a1f0e6fd411fccd0f6167a9f313bbdedc77d7c
+vchelamkuri>wm[\W:KfP/t_$J'\!O90709    0000e1be8a89fb7a8e65d7e4d0a94ef391510d29bcbb1d288b46f51dc98cae6f
+vchelamkuri?s\3U_u4JAv=c$17212    00001f45c86c671ba94ff7c0851e70b3cd024d05dbc13700ee94185c87ba83bb
+vchelamkuriJzy26=taLm7-lJ91036    00009227fda0078fa342ebfe8d1d9b6c1b734eb334d02464c546bbd6f2894356
+vchelamkuri?A/&DB%O/240,%z={52290    00006eb4540e21119f4afa201b7a59a3bc88fd8b2955184a0563fbc3722b2a07
+vchelamkuriBc\5=~|3GrybU\KcQ73341    0000856bb163bc39cf843131ca52efdf570aef2d177ab08c80ea1f1bf2c6d713
+vchelamkuri'&MNkb$04>{eWZP62545    000009533417ddc4b4d1ccd3fe50b4fdd23aba723b29d79360e8992b257a13e3
+vchelamkurih:K>wB6ZoK7{aqE!O7410    000043b90ef9e92343a99c971d39d7329307e77048ff3edfa3f0787c87687187
+vchelamkuriJ?udR/UP0n`{&25146    00006707b167cc5d190241414224a6f0bbe2b087cf1eb9eff5c194255b392020
+vchelamkuri:L.\\)&LBWzvArhUsYq87117    000013345d6d8745240cfbe26a67cfcc7c2dac4054826ad746fcab2f0b2b18c9
+vchelamkuriAfyoKg55Syi<N8Yo5z997416    000010a95807133eccda0506250d9ba6561f8927a23c0b3d698590ab44659203
+vchelamkurif\6xy7g+I]X92524    00000b10bab788cfa1c2a89d1d89384203d01193f512cf2012a2edafcc1a6fdd
+vchelamkuri?9DMZ!%B4:^9b/%Jgu50465    000062106975a338a8c5cb82b2f75ff6f47952824c704d970f9e884100b23645
+vchelamkuriMlLv:RSj?@HDI[,.)~98774    0000d6a370f05090857ca0c9e1e8cbb485fd36c781322a0a922774c70a092f18
+vchelamkuri-u&COS+88GHT`$w;p;99765    00009647eda412d9fed379f0dae04c3825b927046a327fc196ceb6926208e6c6
+vchelamkuri=kA4`%iLa`K~S;w"20386    000020724de56d1dd8c69df445da2adac1f60aa06d977a47c1035036942f5263
+vchelamkuri&#kc9U.2HOsj%pkE40518    00005d381cc3c60a669ff4531bd761bf5215b092ef664c6f22b42a3c98c3a346
+vchelamkuri]#8Egc"LL(|v}]!051603    00000b7967d64239721203194fe328b606f436110addbb2563c13f9bef0d6c1d
+vchelamkuriTk[PLBAm^IU_woUN75362    000026054fdfeed76b9fa7a9c7cfbd1d4f5c337304e2a8925d8b055298ed3c3a
+vchelamkuriYc!fq%Nc}=Vwrn.081935    0000a2129b47120b03976d911d7a6cc851aff42e4c956a22472e35a0545e969b
+vchelamkuri;:f4R^e8H6z(`!(sHh3242    0000fdc6df7b5a31046e4020a20302f7d3ad8a294350f6f7c5ede723e4906b3a
+vchelamkuri0eh>)iP`[K~|u\(jMV61813    0000b3a340a476c76e1f82ce3383b3300afbb1f4deb88991430d808fc5eb201c
+vchelamkurih~>k@P43Cg_|64756    00000602827622fbea88e1534d28235966b130d1c3079eda3edda12ab4a17c22
+vchelamkuri2P7}zn^bL_0pTe60887    0000e0caf34763230bcd94986f7f7382fe98b3190052636f91748104876ff2f3
+vchelamkurie$<:XJ?9C=B5|-E#x.?15631    0000478498c1b3ef88fc3805ac6fa44edadfa0fec1904efbe9129e2e5b3248dc
+vchelamkuri6I@uOz~nOKp]'Z_ed9826    000051b375b15df17490ebb10c1dcfd706d209bb4e716aedc4a042363f1cc66e
+vchelamkuri3(WI0XB},?,`g}CQJ96641    0000ac106bc4fc8260f26ae296079cc274961c29c61ba1eeca44764463217d6f
+vchelamkuriy1HN&F|V*+59411    0000e5e920793319d7767a95bf2d9dade2b0d88c10dc3cbeff98ab1e518d8c37
+vchelamkuri2eEg\}NIHQ95994    000020bcd425bd1454936c6f6a566c277ef36c10ffbc77baa6807a7fbfa1a84e
+vchelamkuri*<K`p#?wg%Z38541    0000b6bd22c4201cdd9de601cff1bd26748488e491785dd64394d8314b132dd7
+vchelamkuriJUHNX!kU`3741248    000023e15ba9025dd4ac7ead01635ded14b5f9f1d5ab6332c939bb4fd367f3cb
+vchelamkurin]Vx93V}J1o61692    000090308df79952c4f9c09545492fb3cc6acb9e5367a61b4194e9f8247580e3
+vchelamkuri.&^g>[I6nD190424    000035df5cc3c1f8ef74d3649fa80b7a8e1014da5b1b68cccdb75854eaf888ae
+vchelamkuri$8Y|P!Z#Y{a"5{<3188    000011ccdb98d292be2b63406e3df022af066d6eafbe9c547e88dacd27e20cb1
+vchelamkuriUX;qpgB]pYztZBq42024    0000036db4100075e8b24ae0c4d714383de8a09f642ef5775c3989090eee8b82
+vchelamkuri]5Rna8<%wJ<^3wx58934    000074dcdf2118ed222efa37cb2a5bb06eebb0bf711d2d325d8b57a3ff871e42
+vchelamkurirI;ooYBPIWZ(|Y%76641    0000897032f973672ec8c1cf12d340bd10c2dac136baf66f43fb7088974e8002
+vchelamkuri1bq&P)a^%iU2)65442    000073b3940660807087e2748998377780e642edb5440129ca525081845a83ec
+vchelamkuri7e}HC'q-Hr+}S79391    0000bbbc782fbce130b2da3d3dbf0d070f463518b6a797a7e183f8c746f6484b
+vchelamkuri}OT'@O1RaN10146    00000f72fb9afea2c92d8c57d8e2c2126d089b02eeddb7615fe03ce205e042cc
+vchelamkuri6YWPe<->7#46445    000001b6f4b4c9bf2c2230aed8596cc933b495a996117ecf66a12bf4ba03bbf2
+vchelamkuriXP|^n{1&*c52123    0000abb66b338c615e38d03b4c59261a4fe6e4a354e57730c96abb6179b9927f
+vchelamkuriMfZUs6(;~]54201    0000b0cee251116a68f0df3c23a98eeb396804a40fc9ffc0887fd0b17afd9caa
+vchelamkuri`Ka[J:7+I4b9a332416    00007fc3aacaa93d56ef6387be154b0a9d699b68c45f4041dab97a327ae6637e
+vchelamkuri/6eL>2lY"C<OH/57154    00004b3a816ad12fdf1b81e936971ab9ca65e6b057a09beeed1d22a44320a415
+vchelamkuri(s~Ls7Y)n?RAIA$2K645228    00008e78e46fa43c6582c21bb1fc20cb81bbe4913f617fdde5613d677fa95904
+vchelamkuriM3})|n:o8ZA1lmXAe(95044    0000fe33727f662580f317c03b1b4d73f1568292d72c692538e18e1c8cda76de
+vchelamkuriaB&=Y@cGhQDCqXGO17518    000045b9cf7a73eac516a8ffe4158b8787062b4703abca790258dbb0f1ba081b
+vchelamkuri(+KkI1jHEU@Gkj.Q47941    0000fb141bdf66a8395995f4fb01514099d693a1fb630dca5959cb6f571cc8fc
+vchelamkuri&)*X>I6HA2713959    000016c65e3b7efc9e83731d67bdec1be8dd8c84151365fa3a6a1f0b8818b19a
+vchelamkuri*yw|ob+x6VcGx83794    0000272d1fabd71e8131352c8bb094d87862a9267e954266b76f9cae048a11c0
+vchelamkuriTM##o4)cZ/*rm86151    00004077f72ac091258de401df43c110a5d7ba393a9ca39c9e2c4d9c82207d2c
+vchelamkurisXd3JW6"aE~18058    0000941d2c528d50fa158138a3ce5e5bdc95b0e960e275277800a70c27c2e8e9
+vchelamkuri're_l\rY><%47763    0000ac6a9cfe78309cbff083b13cdf038cf6154c198357f0ed8b7518c4114afa
+vchelamkuril9'%~d\eMx"68083    0000e5940ba2ac37c845029d0500fa45c427aacb9a9f417b80484f0262795ec1
+vchelamkuri(/WN|;n*rz\C49578    00000bcc7f7648e9a78817041749c4f676c1edffc4818d307816d5036374a3ce
+vchelamkuri0rl_3EB2Y@N[:SvomL\36503    0000628bd7358553dbbb11d018c38dd7c52edca6b3991d3e3a699bf297f4478d
+vchelamkuri@7CR<`Pm;xb{P?M?Z>Q41498    0000a114d1d9ecbe72a73a401403c2494ce376e1209147e21c208c1bd0a54d9b
+vchelamkuriDy>5+_:%y<;nW*|5LcB44941    000066afb4d9107e151abb3877be06709c6dacffb30ac31064199a6bf9ce1ce6
+vchelamkuric>:<~n=7s'1b4{P50597    00006825b7b24816f8c619397bd53c5325ff1371972b5847961444e512903177
+vchelamkuri,d&}Ok>8M!s`21668    0000f968ce6fa2768df28301a750486f48319dfebf837f5d8c27f5f180164267
+vchelamkuri/;<PIKINno,(57448    0000521faf35fd80f6d03a07cd59df8f36e5e85a629f2fe6b3e43c6ac5b39ff7
+vchelamkuridtC'ybehU@3952    0000a34f0eb845c341ae78a3491ddd3ce7007a43f16588f3bd6dd9ff3f68a31d
+vchelamkuri-B2VHK(jNI16216    000095acb408679eddbc71a145fa913700a387b2c8bf4c62f22a84b5cfc38037
+vchelamkurisc]D:J}\RC^j`JB]34397    0000542ce4c1eb5965849105f5d0a166be83171057e28cbbb2873fc59d3de1dc
+vchelamkuriUjh8W'*n,'MLF>n-88210    0000a6f7b578bc0a8cfcaa420d92277170fdc5dc125306f258f220a944a75aaa
+vchelamkurif!Tq`MiV*u;v[22373    0000d1e80ee06d289a8d2b476fdda47eeaaf46648f504a7d0b4cbc67a4136f5c
+vchelamkuri>,PL`wm3%-BuH68903    00001d428886cbf68072b63d764be5eb231e8c2a0bd443b338937bf64c0eefd0
+vchelamkuriozt9nHqN(eWj:84326    000006e9f718b6224b986c18db258c9de9461444f69add9fc9b875442e24d527
+vchelamkuriM^ia|@u^iVt./r'#*V16989    0000b9b0b38796eb9a2575852df600a32157f58f5a68035f0ad059f543604aab
+vchelamkuri=maM_{l>iumT^2e^#=84256    00003b7cf925376e52c604a54b4591c9b23df7795c2a5c36a920d5caf5f4e068
+vchelamkuribj{3?U@-R[x11%"6gj98633    0000cd52bcb3b5352430e399ba598ad7de73e4caa1132de4098b004ed973b408
+vchelamkurigC/NGt7B7v{45331    000027d6317be414c5336605f9ec0538c1c00945d0f84b23822aca0fbd3e82f9
+vchelamkuriP%RJ_,`N\+"94978    000097e6e59de8009e52bf00459b2be8540d692d1c58fd9d3923fc164a60cc14
+vchelamkurixw5x%RWbz`^-m45965    0000d9246aca6f2de290a1b580ed5fb934b885a3bb9b64b264dc41f75c6b78d6
+vchelamkuril*+^k8xLj;&8A77720    00005c5030247f3979fcd74ddc66d293474646e72e19fc849da18682e59459d0
+vchelamkurip#{/v3Z^Z28-u80249    00007f0ec29a160e87fe2c65e6219141378a0a37b6675dc43c8940c4ac2edf45
+vchelamkuri^,4F\-l!G7SvKC20943    000056abbbaeaaa55fca7bbabe6fb70f761cfe17233368cf4a91658759794bd5
+vchelamkuri;%ks&RjQ`x];55y7269    0000e9a10cc08c92753a2cf03211d4c8d0a1de0647b62f597e01911f80d0c987
+vchelamkuris>"KDuJXz_-aGOV30624    0000f1dc7043d9b694f9f5186d7faea400e48dde1223e929db78493163569aee
+vchelamkuriI*]<q#0eV-j=R2!v;}>5994    0000a921df1ef01af8d4e5b3f239c6102b91e6c385803f790b4aedef13b3fe43
+vchelamkurit4W*^<mtR"61Q)2{fx:12028    0000022bee935b7663645ef862d1b741c160c38292b3aa388a1551eae0d6942d
+vchelamkuri5raDw|Emw0{uNdQA{40217    0000881d7f73f9992c6cbcf60594423d098137d1340a4b50753903e69901466d
+vchelamkuri4Rp'q`'bG44A0.31383    0000610fb007d99fd6e97b07a131b2f854a205881b71255d283a06d18043b254
+vchelamkuriqEMIYOgR9/b;9U27412    0000e937e5f1fcaae39d6387da2df74de294d4b115fe2c6b0b5ce3f91db849a0
+vchelamkuriw8]qh)PS06.\[*27850    000083ff22faf3a4f424c9b0911dcfa6aaa8fe9049408597a611b414b1b3ad6d
+vchelamkuri_B={rg/4!:Yr[#45559    000007bcf0084548ec34c0d16e6499483fa60be1bdf2d58a30b64cedb68e17f2
+vchelamkuri,jyG>P`!yUX*?RqFTN40529    000014cf7e058c24dc8373b526babd94b555b062328b5a905acc0c8ec93e8b53
+vchelamkuri/jr0X7G>>oA@76981    0000c0a6929339e4326d1fca7b4366ce1cf271b3176247cc1fdd6a031639cfe6
+vchelamkurifB>3et.N(].R]87841    00005532a8ee58214493710bfeeea406421a0f1307c5b5ebbf3f731a6d2711d9
+vchelamkurix)T^S^[vOnn,i>+N64580    00008674055c0c1aa654c6396ce984fde32ccbba6a1c502380c8184272cea9d3
+vchelamkuri<ETEEpts<8K:qp*685799    00006e0fd65a4086a056ce0bcb07a82b57868dae7640ee0943df307baf03fccf
+vchelamkuril?Se08ndSYw_JPd73473    0000398db604d0d7fe5b8fcebbb38708fb5e2efc0ca75b77a8ddb2863b9697ae
+vchelamkuri!5U=kpJ>IuQI]Mx5?7317    00001cc473043cec547507d5d0514fc39efbe97aab84637035eb90b9f7b14676
+vchelamkuri*yXK=gP;nbd3Dd$s{61091    0000acab6ec3d720e639ab77ed9e0a4f096ffa917de5bd71192e768dcd02bd7e
+vchelamkuri$J%/Gm^z3nOMX6HZ\92673    00002382eb8036c2c4d84bd637e1f47b1071c0f23c50c34976eed7dd44f21666
+vchelamkuriB|3{M3A9dK]i:Dvt!S411539    0000dcebf137083b0e13297917344737902d0c10bcf640423655138669c0ed0f
+vchelamkuribQNTY[.~<>MO[5V'BIn25278    0000a150b42af16a7cba01fe4d45994dabc4aa77d13685abcaf9375da4b08a56
+vchelamkuri\LnAB(|8Gh/-#8;4hh\47861    0000e5747e54cd20b0f4d7da8e2e66f400aadac7df39a0992b0477cd57120527
+vchelamkuriWCNoJOimYa\}icA`T+762281    0000532d31cde18241c00d38fbe961e9d1d070230c869069d9f52652698b1809
+vchelamkurixzQp$O$^\=]1<XKl47736    0000ae08879694f9a1b6671535447a06d4db38277a85b2d96683fec813970b80
+vchelamkurin!.#]uRZ>Ly#u745476    000010df131d5eae14e2af1cdc3dceaf73610d23b1410124d011b98662570e97
+vchelamkuriE5AR>HRcChD`-c66523    0000d5ba52532f8398ccbdc83302cfc7b3cfaab4c08639fefa087a7966721946
+vchelamkuri^U~7vk2DMkAuYC4n55766    0000f039c3435ef689b578af7c3064966e13a4f24900d2f0034502fc57453b04
+vchelamkuri0F!y'XO6/!6+BPIB83240    00004396485764b361589ef5e0343757d8d3c2802f301837dea5ea5b85b28855
+vchelamkuriA7_6w%2-N=<%79665    00008f8330e3c7a1be4c274723dbbfbcc6acb287b8db9b94307f9fab4666568e
+vchelamkuri"ZcPI/X:xRKj80913    0000fa60dcdf3f5303a78f8bb7aa415e515e06e0c34de552b36c4d9d487bacab
+vchelamkuriTZ,}oh1O{r.JW`Uf:p97639    0000b0cbe4f0ff328c806e1a8c11adea415c3ced63b5348b0725b1b2a8fcbc99
+vchelamkuriV.)off+X&+W+@by16104    00006113ed4d108a97dfb5577053ec48f4975493f251ad4d590133cff7167436
+vchelamkuri,#A;";zSx|9a-5413    00009631717c1ecbbf3e8a62375076b4efaa9e4de1d4483d0043671a27559060
+vchelamkuri#$!?#33lCGK\v85020    0000b2c8c9db4db181c0b4804b1d0d8a433b52f11d9f2e587089b71a46543fa0
+vchelamkuri,l\}!LFo-?E21843    0000e22b2975fcfca94e99e668a0f955a1eff2c01a6d0d0eadcdf11110fa4e7b
+vchelamkuri$w!,k/jIpMH68327    00009337a42151d4d0d49a19344cec63f4fc7a65da20a5dfae888a226028a915
+vchelamkurih6j2%y,2q|g;m.mKjf28248    0000d19fd0a0e570118b29b40ae2efbb5bf798f6d6c840c172e4d85e9c2b9fae
+vchelamkuriBuwJE'$;MTWge^/_Ty34483    0000624923f2bd357cfabbdb7d74dca2f6df223164eba63aba3dd2df2c2ba680
+vchelamkuriq`E{C::WGa?\sS/4W<76805    0000a13277adc20ca5cf5836fdae79e903d7a1181b09a2c7932a563ed3e3526b
+vchelamkuri#&]Md>CnVnI`Mib[@(88067    00005d4ed279b7e9080f72613780d543a5a141c196e67e1c89d0fcd7106d8cdb
+vchelamkuri-AL4GpkE(^D~2Td?48327    00008e848cd25cc1c00335aeb449411a537163cbecc64cb28abf646818f8c1d6
+vchelamkurik3?gW.<3)`$uEM33764    00005e7e1b89cfc2f60fe473cc09c8e30c068f110388744ff11a4058a2086e87
+vchelamkuri;7GLI'YJGXD<7xpPA`57886    00004cdb628f06062530ea03c2e51a9a7ce0a430ed81c1a7e4e7f5349c05857e
+vchelamkurisZHiO`ReWE;;HQ^1=!71220    0000822af078f901ceb9ee14142244d3eabcce7952d6a95e3ed0ae0c1d7d947e
+vchelamkuri.gTY>"ds$Nd^$F9_yq85171    0000df5751bd2bdcf1d7d76daa44929092a9215889759ef50a7c644903da7a2a
+vchelamkuriTOd)K#erCJ26440    00008befbdfae6565be3af62cff3bfc5c315a4ff83e98e3ba394233e5faee81f
+vchelamkuriy)HJxM/j=v66295    00001e8595fd1a23ad36bacda9e1a30ead46e8069f721ae617ba7cb3f683e9f6
+vchelamkuri;kR21'.,1Z&`"l_gr,Y54391    000055f0a26c1d7e3b1db6e260bf51da4751828b231c402b7ba1e713044fb662
+vchelamkuri#.kuG#|[8kDRN]tZT1l62960    0000314e856902bba28df326a87ce2b39f5b2ca5ed2ee5535a437dc1c995050a
+vchelamkuri%_(|Yb6N=I*fyB)"B70684    0000d100529995d04ea9e6fbdf21709015c4c5a0622cf0355245be0885d68572
+vchelamkuri]P2r-4^LHB[Q<n`GN$L22146    0000a35f12f74750d4880b3f8b41c7000e426e1d626bf37da0541ff193156027
+vchelamkurinkA_[-e"4BE|Y|AKSfN51658    00007b0311feb77d8f8d55aacd3f60559e5483528895fefc9608ad7effbd9f36
+vchelamkuri("#31:z8Jl5967    0000b66afc8cc267a7e8a8669eea38a65a1608331906c6eb4f21570f744d39f8
+vchelamkuriljEgk&~yq@80863    0000f7aa1c5fb232c4a37e57581a73fc353fa760a0017ff8e3e1e5a43750bfd7
+vchelamkuriTNuXPlOj9+_=sw"vB636814    0000bece2018e949f3f44393d7086f8ab73d007947b1f6f2192b73046eb7814f
+vchelamkuri+nDvLaI(.$#4b9"TOB98644    0000064f0465d0ad3e1809ae718771edccb83022721f313f1644239a4c3cd75a
+vchelamkuri9rzdf_'rV3Jd65758    00004e723893c3035d467e343bbcbd783d0ae4f16ad605edceca416f65191013
+vchelamkuri;\l;Beso5=w:70283    000017378ce99d9d228532bc8bf2467a33a6a023003aee034c7045374a51f8c1
+vchelamkuri!At!9FD2H3b%77311    00000cbffafeea06d039b96c1c3d5a24148344bc068605bb23a4a254d089f921
+vchelamkuriBW<%^2a/Mn{)$P56106    0000c775b639062eb8ab32b6790178f427d10aef48e8deea7fec63ae7f7ddf3a
+vchelamkurip^vT?;1usG.8d167089    00009b78eb63f3f582d9e9a9e47b2e1e8b81db46271a726fa97716568b74d3a4
+vchelamkuriXxFG<DWEx`8{G=Jc1316    0000f27648a5ae8463d0552eac30bc86c3d8f818aa07b72a98ffa4c5d43de241
+vchelamkurigF\&\$$-=oJQ0ex<92152    000013080204c20ce061918f6fa205ef3bdc4e7b4a7e56e77064b7119bc8d0f8
+vchelamkurii~sw=FR(D`572632    000040c87be109688590b528526ea4b4d1385d556daae8fd02a4b226b3c22ff6
+vchelamkuriB&9bL21|rB;68226    0000163156fc55d10ca8037cee8d9141055271a88d445a16f53a1bdb42850f6a
+vchelamkuriWSY{#+KA_&$ic!Eee80832    00002329227c3e7542d3077f0a4e779f283a679678cc336b1f23591ded44efc5
+vchelamkuri^})Y)H:R[-zQ52s7521    0000a59ffc238fd2573156bf365744669c5d3075e4ae31da0a3a4731e5f7ff1a
+vchelamkurir%)>W('Not}<c|G25593    00000bc422682ce301d42ab77c476bda42d0554a51991774c551f038bce45d44
+vchelamkuri#*B9KtmuI#3w93224    00005b5a1d766bd8080a12e4b67352d04c601dfd59b4f3df99c050abff226a69
+vchelamkuri%eKeS!4`f\\Q99003    0000bec61c9365657da75c726004f1925a07557b514e0348e594009fd8e44aaf
+vchelamkuria3|)!r(6YhaW39227    0000ac4247a79f66965d5e4890eb9107c8af4a3592a21784864a5ed46d736f3f
+vchelamkuriBhLC5OEM0/394    0000c6c2d3f7404c074a6380f87c1f8b635aefd30a2236108f5eaa316118f02a
+vchelamkuril2'P$w^IZ76810    0000532428bd273b6d35e3d8d51b32f138ad1a0a64f752faeb2d19117ad94a13
+vchelamkuri]NRuOUetW{15876    0000cd2e805fb86bff6beecffb9268ca9c86cb533200925cdf356ad3be563a9f
+vchelamkuriXY+QG\^K>418377    00004f85ef1bca0d1ab25262c33e401fe3d13689e3a6534cf4c5c6286c5f29cb
+vchelamkuri&Af3)*V"TbBzPvYg3044    00009bfbe382ec2fe611dbd0610bdccfbe02c0746524ded2f31d2b2d52f99564
+vchelamkuriQf7U~K@xkslj7k52249    0000d61c78a21c93e5ec81df7363354cde7f94c18573a6fcb40e55b1e0ae0f89
+vchelamkuris4/SGLl<JdDQG43076    00003f60c192bce65aae0e9daa284bf3985504a22cbc2c6dcc59992573c33126
+vchelamkuriK>%hwX{<|@DE/91050    0000a87689846a51f03aa7ffdf0bbc3235cf2832a60a5fa7341247c42c0b865f
+vchelamkuriD1>aQ]9paA<10399    000028caf62c81a091ad0e2fe80191270c652783af9e08d3a5d1acd0843f5ac6
+vchelamkuri2X!(M>q\?S&75980    000037de322f194425d183e9bd468fa67a2c534663142199b6591df7df1f1d21
+vchelamkurilZb\-YN0:"577202    00004eaa88f9f07d7f07a3a28ff1c8b11f243b9ec9a536d52297870fae4f144b
+vchelamkurikP"r{YW)twbyD4977    000081ac6e8613adb73b3224a2e9facb36ad247a47c66cf593bd80cb29d54825
+vchelamkurih$Yh.G&yxE]y<IN74424    0000be11bffd91fdd5dda502e270026a887b8a0728f2b9ddb83248b159838f4e
+vchelamkurinkhxgxm{jM~hM@Zpi9164    0000ec29364fd7ecd3e6a665add9632b9e7640ccf0dbc9f1651b4c6c866ad6b1
+vchelamkuriT*G*y{4[wq_ixg53P17923    00005466b1053b3e7678ad697a5fc1aafef50153293d17e04a42fa7d5c142792
+vchelamkuriddaW\wTzAMEMKu!9:83996    0000d692fe18fdfaa9b0683a2d69519bc278b196062c58f314ddb2ae62a1cc76
+vchelamkuri\W,OZv-oYvugDxY'w94427    00004426733f1a1791c5fb0297d45c46c2b80775a3fcde648457600d68a8ca1a
+vchelamkuri/n!,AR+Yt0_bHAYFP98001    00006a2485952156b422bb7aa8e11832f35824f99d7f749746907d73cba00640
+vchelamkuri_Me9CC$N1Od/36542    00000e3129f5bfcd60972eb6409238a749f9bf5e6cd462a5ae2f8aa0939f2b04
+vchelamkurikUA|7NjA}vO^44705    0000720e04e969f1430e212cb098b6a410e713da7ad3488831a05d0e0ed2c85c
+vchelamkuri0CuQD8RKYL["72306    0000034a5c45e9578b1fa8f63ea5768b467698fc14b25001d5e2659ba2971855
+vchelamkuri(`l8p{J<rF"`7D@v16911    0000131843e7b37dad6478832515f49cd14db7c6530855e766a468f079b4e932
+vchelamkuri*t(*7EBN9(8y-h-I}i68257    0000645320a0eac8b011a32085e3da36d8dbe9f18c53c0fe2e81567f5d9427c3
+vchelamkuri',yX4~Br8W53154    0000394702b10985f145dc363a299e96f94efd2dec09e8dd228f7ae2c797ccaa
+vchelamkuri/;G\gChEi[83833    0000f2cad5db8764b8cef8335e244428014b8a8b4f557595a71ffe3b1b542ec5
+vchelamkurihK#,Qd_@a<Za=61686    00001bab27b8be4e5d325b78dae349a03a058cce443e897ae61c7f19dec4319c
+vchelamkuri@57%qp~+Z+~Si6R2516    0000e1d4aa1378b6a0170ca4a1022cbac990247cb1abb8e0347eb7c966404cb5
+vchelamkuri'zsLY3929x,E0x67472    000098c6b4ddecb3bd83910f459408e71f6b6cf327ff806af77a3391db4dcc07
+vchelamkuri:gQ0a](%/3cNOt*55285    0000f05393a0273c64b103a71653a93fdb9799ef355b38edbea35814a4457857
+vchelamkuripyk{K,;NmMR&HEw97531    0000536fc2295c9cf6b9401a53da0b16a6374eb34151d3b845e4d21698c16570
+vchelamkuriVZC?L|vx6oNhT>t)!40609    0000d3267a738452da07870691f0fa3c51cb7734ae92f83423e3502b8ff5b542
+vchelamkuri-P54+<|\:W~Iw9'=O42653    0000c4c46effbad8166c2594e99115ac04b8f9c9f65e50f235c1715ee7848230
+vchelamkuriQB#PE-+eg/SnqSM+O45924    0000ba73f8d81db437987458e46e7dc6e144968aa4bc76120574705674db16e4
+vchelamkurims`=iA9xz[gUes\S&68141    00005d87a7ae16a796162233b78e0fb3abc9c6854ce1b56c5c786114dd9499fb
+vchelamkuri-vVE'>?H(WG11404    0000d27e0021fe0f1900a7670eb4768c72fcd09e7365de96612de1be810ba0e8
+vchelamkuri'2hf.BcM[zY42396    0000f8c8488001641cb0a28da56410be8862ba8df17ca8e42064914e873aec09
+vchelamkuriz)usM"b8Gj.82524    000040b735f6fe54dee4923bb31df48c66a33ae8b47f8e14d4d43f61b240bc4b
+vchelamkuril3$9-s,s>VYSvFLBAh36934    0000e18bdeedcf7007bce5db3b8f6c01ad0d55573c3a15f4f883a99182a24b3b
+vchelamkuri5wQ*8#'mF,f4R/_(0y$27605    0000e4e3424e963dd67447883280fbe5a5c991a367db50014a9a675926f15824
+vchelamkuri\%{`9ivACb"p,hsa68392    0000f9154a17834e8c0cdd63be85ad5bfbf42218d55ba8c55bce708f7f17bae1
+vchelamkuri7kgk/eks1T46795    000006254f9071be62842501a3bce9349f61a3ac16541e9d93766ffa795e317c
+vchelamkuriSMmbMa'KCK50625    00004f3815ea14f93f44028ddf1b7324c39a6fbd63f2ac32364c96f5a1f53b21
+vchelamkurimYmY2N$]U8":5147    000076f7375f763e373c74e71edfe1395c1fcf5e111a96ae34df1ba1f36900f3
+vchelamkuriS8*z,VT~p[*b58241    0000efc12cf3be5041d3db1b59d58ebc008c065a4ac68cb4ba0168aad0cf863a
+vchelamkuriU'pzO;hakvCe74873    0000022eb7f9842db30d8a7f5da3338bf59e3871acb3c2cd5cee570c5045b807
+vchelamkuri%-~TBfQB-nuZ99198    000091803d38845b6a9b0f54ed3af167d7e23241459838ee4b82e82913a6aa6d
+vchelamkurigj0K{llQjgacnrYD?09073    0000141ea95d5bb2043c92634838e88a7341d393e1ef8829c1331bfadb731b29
+vchelamkurii+0*R$b>&mt5*[)YNL54431    00005e4ba192a84753cd1b061742ae173fce5b3f5352f4da4780c80b402a95ef
+vchelamkuri&M(4@gm:8ST|J`45808    000019997a2694f622624d251c6009d82c2684d6a4fd17e94f9105d3857b64aa
+vchelamkuri59#foZF*rNYJO-+64403    0000bd64c6e4daf009bf6b939937c7413edccb37b2ff45cbfcc31d3f488551a4
+vchelamkuri3DrLSdyQOz|RZ19882    00008511a2c2e280b0ba6a145903105b2a9d13dda1fb19c3061943636e935432
+vchelamkuriSz<Uncl+5@|!N78265    00006322e8f3a9b47a17e4caf672455cac841edba22e60f33ff1be6691bb4938
+vchelamkuriaJ;7/b=D7m[3^A8y^60419    000019fda935dcd3fa7e9c436aa7dbc64c6e225ba72dbfe5f6eb14904305975e
+vchelamkuri'[8fLx`'h(bS"Nb<<64975    0000491b2b4a8e1068ccf9d1e5f0c1c1b0e16278f9210af02755eed5a996b645
+vchelamkuri_0[Fg+3EVC}.|t7LS71357    00008c8404e8fb97c4b9fd3077e3df44c3a988744bfcd2c9967ea10210ae4572
+vchelamkuri90;\c'\#LZEyrk!>c)T1467    0000435695c6ab14a82e261c4fffa0891694ca9c1bd2c450667844454607aa59
+vchelamkurioHon$;eIH)'DEU1ETz^7547    0000bd3397dc76d156beec4216a794daac5b666f2f5f9029192861543b6fccd3
+vchelamkuri5T=CsifgyHp62631    00002f884441631f8051c1717326674fd223a83c411aaddc6b71b61c7c2c1211
+vchelamkuriom|'kD#I!TgfKGs}EA51564    0000ba200fc8a977934fe5939d265205903b2ecfb9a06cb69ea8e4f7babf24c9
+vchelamkuri2r-$3qNiz-ADOa<79q55574    000092f7d169273b639216695533bfb0ccf1ebb15a252ab06afdaee57612aca8
+vchelamkuri)-?MkL&G4uy+c-58981    00001eae8bb0fa4e41e47d8a3762c033211823418d63a11a35ce64efc587ad7b
+vchelamkuri~^W%9Jn&axrf79563    0000cb9c36976e4666f3b2026fde5332ec8f48fc53dac2cea43b6a392cdb721b
+vchelamkurio$FVBkkDvX66028    0000fab9698736526908823c9658fcbfe6c0922e91a7dbb652023fd03c12d467
+vchelamkuri_?6wGp.iR77b91-<o#54667    0000505d4cefce61207be8adb2654781027797fc64e4cee8716e669832307ea0
+vchelamkuri2x(+':T/48!n_@Cy70568    00002e7f0b71df39433e5819ad07d3f242e151baaa322cb7f0456aca366b14e6
+vchelamkuri/z~^!YI]\\Q+s<tbL59568    0000aa967521ef4a037f2efe7217ae6f9d5ded35f6dd8debd7d0fa26ed875103
+vchelamkuriP4gfFh.'r?k)pS<EC$)56004    0000382c76b99adfe59dd91c6b1746744ca1a9dc6ed9f11386fd68b4502b73d9
+vchelamkurikv@w_ARLQ}^69025    00004112ed2ceac4991d2d860ad4d88ee39bd9f438822d85bb3e4c00deb048b3
+vchelamkuriPyI0}(4jq^CR^`B20442    0000f1a8a147c4d869f3a8f9905fb056c11f92a02d70ebd2c899befdfe00c8ff
+vchelamkuriBAeH'FL,T'!yVJF94116    0000bcc9cf49baf6aa954f82c8f6278ca0f65fa4a4de279a18260a6f45510f5d
+vchelamkuriO=.6cWK1wNE<6oWo.Js54138    0000d4e4d39db83c848eefa02a7a3ef93133eaf0761722d24d7b64b19b8b2185
+vchelamkuriq]w:cz\d{U27397    0000ad416918773d6438b4289fabb3a494f6a42233dcd860274ec55c4274ee8c
+vchelamkuri%zf[M;lwTp35115    0000ececc1c56a780143194ac951329c4ed9169aba6c29cb2d7c3116f047b7c2
+vchelamkuri8.BO`wrDU|\=4575    0000675b03c4070df35b887576f09fdc74d84eb655da45da378c8afb734697de
+vchelamkuriV}pOAz@3x6xT40693    0000354542929163332ec785c72201657d0f8151f1216b3cb037cf751907bc85
+vchelamkuri[~i\!=j.Z;62315    00002a416a36b16d6f218951cfae6689ac362c990e9995d754c0045c86af739f
+vchelamkuriqVc{?XBhY&^%i*8W99627    000015ac1517aee1f80a2627a0113b29bffcc59250471a31058fde48662672e5
+vchelamkuri,pam`ZuVkA6Zut,""M57531    0000dc30f4103fe869ea6d9395d0ced3ceaef84333689d028d055d0dc3529ab6
+vchelamkuriUPejeR(x8L-n"20735    00002150aac63ffb7d94de982dd0ec8401b420d2b7d5e2304bfea771e5aa24ce
+vchelamkurid\/Kr`'Y(&[8U25177    00004c6370c401b511266d0e44a7aea451a159348112be668c44fd975704cc73
+vchelamkurib\%0&e%3@vhW)34140    00004b914bee494a2fe2bd72657047920e14fbba81677cbed0f472dba3ca810d
+vchelamkuriRK_!I4DMi\=10470    0000b8259b122d65d58efa7bcb295bae0dc47659c25030c943ec84377803d0fb
+vchelamkuriXhYV6p-H]Z<28310    0000f3dd13e554f14deb09565d1582e15bc3112d4f86f73a6b090119894fa340
+vchelamkuriZBdYVD#<@Y670685    00009bbdc8b057155cba5c67e4daeebcbb9429348997f67a7cc78f9a8b518252
+vchelamkuri>T#jH>O/-|x!ds6eK86465    00007de63b75c29353b3f58ab3269de948cc7ea203a3fe43098d70f4b2a6b5f2
+vchelamkuri&u#?'^MJs+Iq37710    0000db70db7785768670edfac74bf012f56a7814890141622037a2f0fbaffbcf
+vchelamkurijz4('%:[PB^(a=7929    00000ef5da1076de7d25c6bff332742b05572b2b4412bbb9fcf417bd62ee8451
+vchelamkuriL067<K>/$-f']M33045    0000705a9aaa403a9de79757f59f0b4ea3c1ef3e3e630389e1e20e58057fddcd
+vchelamkuriH|i7LGa><z"-g{1.79527    0000762bf48d2e2e44216fb7f5d94741401bdc0b7671276cd25bc7c72b427c9a
+vchelamkuriK&x>HhZ-SBp)C(Bt;w32347    000079a011ed16c53c1be9b6ad7afa299a38847483e5cfdf9e66f676f422e04d
+vchelamkuri}Tl7w$,"_849036    0000fcc94d8ed41ba094a87fa1dd71b7acec33b9b635e987bb2d22017c06d0b1
+vchelamkurio!3a`Ek}~QNz+35489    000038e0935d057d9f71cb0d1c750d098e0e6f82439bdfe12801736e5ead72e6
+vchelamkuri-,KaVS'|WEQ&z66950    0000b0c495f8289a49ce76ff8e6a5376eb7072c57bc968400210debc899cf51d
+vchelamkuri:#,Lg2m>3`N~}83103    00005e936fe808ad7b1d997990bdd2e01e5360d8a6fdb2c28790ac1a4fcee69f
+vchelamkuriDQe&Eu0u&]n61456    0000c1e8d3a51ab517aa7541c447ffe710752212abe0c461755a039aefc42c02
+vchelamkuri`Qc\t0U$T/G63159    00009a1a86e9328db9f9073c94882e04ccfb3ce18aea9008625f34a24653ce3f
+vchelamkuri"?E'X1s!~D^65872    0000d7bcd35339bb95e3a0b465189aaa06b57247a90dc37f117e3e2a9f1aee50
+vchelamkuri-cqfn;K#x<UVRC{9"14370    0000d1fa4f612759fb519479843a239f7610f1c2e863167de7bf801e373d759e
+vchelamkuri38<^/5@gg/v{D@69P98999    00000453676d60198f3410123ffc65be288dc3602f03d501e48f414e1486f57f
+vchelamkuri"F)Wus0^lG^ALM26052    0000ecd0a69db6a9cf0ff40cf3234c2b3a7e2c266bb0087581217ecd23259a96
+vchelamkuriHO9ldc!Cgx!4}B57134    000082e4170faaede3354b8ae0b9e41b1d0a4592395a80dfadcbcd9e740f2453
+vchelamkurinn#{<9ZosO[WM32(31436    0000003d7f8465ae4889792b3fc1c360e431a11d7e8621f46174b6c3d0a11678
+vchelamkuriq`sz+KLzu$+84V31588    0000a762cff4f833827bc5f1576ec5e8315864afa0b8a61891244535a40382e4
+vchelamkuri;t|1mL[/4cQESz~],P6676    000019f201c57f3cce08c7d2538680f95c11c3805890d8589bae481158ba9505
+vchelamkuri!shenQ.'OL36005    0000d8c01cfcfe873a56aecf41b880a5e8a54044e7152e2072a875b6434d09f9
+vchelamkurinv{'`8nlR"91635    0000b1d13e3fd4e577468e281eab05c356358dc53566bb0ba871f293ac5dafa9
+vchelamkurik%r/7Lv{SEKE17706    00007b442933f956ba23c8a833cc97b7fdd0c9c6e8a0218d1ca446f9c4e8f31f
+vchelamkuriRi$e:wrR/Dd^62016    0000416c31fe90e3052f9a7ae72e338544490b96f3bec7dc227a4078537e237d
+vchelamkuri3I#6_W|j1T4[6&/m*52621    00007d7e6109fdebdb5b3dce384bca58d4c881a34b6437045ce04cf59b2a0cec
+vchelamkuria8a:7J^"7K%)QXN57581    0000f1f3ceb09b1aa83a1e78b086fc0920ec7520182a6693abf94f120742e504
+vchelamkuri}KZ`!E^;{<NOUhHBcZ%9064    0000f98d76fe15f7e4da3cc916816a0fe00da10473175db859d573cb6234ca21
+vchelamkurirP<77<zu*?S$ki#}',o18059    0000960b5e7729dcc7844c95a8c973432afb86a50fe3864ff72ead7004ded747
+vchelamkuri`p[SC=Poo<`=IFRw9aU59774    0000325d3a8a17dbf9ffe01258ab352488bd3b32a7b94832060929d6616690a7
+vchelamkurih[0vvv1Yr`\h(xb830733    0000ee54b2671454851b7f153542c0a26d57518fbdf7401c08acaca6ab2a89b2
+vchelamkuri:2-"@K|zfh21101    00002afb485a22323c94ddfdffae35d1d9a5533edf1e4e7e96549fe9c7e7ca79
+vchelamkuriY*-0u\r`'@24221    00000bcf196aea29bcb1e4e29d90515bc9cfacbf4c2a16bebf30fd316db775a3
+vchelamkuri$ny_E+;z;q33865    00009f7b2f2c2c579aacb7b9a7ccdda102a92d999ba835d2e22c96a9b001a41e
+vchelamkuriuBy\aV8-<u48783    0000b8d137029d9996aea013690c7b7c4a271cc6373a13c19ccab8214d7d3029
+vchelamkuriA1EessTUF[k'19740    0000e11baf208ee8de3916a2b9e3ac4629c2745ed5187f5e6c449aac4b50ad4e
+vchelamkuri#r-Ol6d`[aGc51468    0000fb909655c1bbd39a4ccf61f231083bcda585ecc17d2e007f98ab780b7bf0
+vchelamkuriXOMdjo1uHjH:lb83924    000083ad92ab8e61cf1a4e7e2b9100fe6dcdd36f4afc0a2a4883d3c82fc336ed
+vchelamkuri#&*ih)y!Dj!+$]|31764    0000b83e52d230dd664cd9059e665ba2cb4e0a8167bca0c4722ccf9087a25f52
+vchelamkuriTf_[E?OWw=pbX6XuC74528    0000fe365b97d7b5adcc7b8365e3e0829dbe07898c9c0de0bf1afa7f23ecd78b
+vchelamkurijZHO`G/;w8m'smB?o99228    0000c3be9823df2a18304f7084ddc2b971b547310e5fcd4cdf563c23973ddcae
+vchelamkuriM(4-36RfSq9=;0({-31780    00008ecf4399de4bd7629d5a3d61153942b4dcd32c9944a3b112c24cd7c3ebab
+vchelamkuri<h3wT:"V>US|s'{Ho65552    00002564b2554992837471a1ecc21ee048aca400a38bb5074c25caf96308bb4e
+vchelamkurikY+xE{%OedY79787    0000094ce8278afd59e97bca94b1109ea0feeff504ca6d6aec21eed8432a973c
+vchelamkuri<1lKz$I1D5E95254    0000c5932ad5ea90484ea6951eaed98493916b0126646d6bab1d6b6d47f09b6c
+vchelamkuri5GuO\;?L4\3l1&_"GC49993    00009703f4416c0a984481cbcb51e7335b14247c7710cbd9171dc59c5c09c24d
+vchelamkuriQ>c.@'<6i+<W[$X5Gy85741    0000504f051f676556d3d5c4ba0100a7d1bd76bfec945f5879c10d529383e0e3
+vchelamkuri5Mg,kF/iY,R842589    000007facd4d633a7ec20c8547c8c508f2dc8a363584de1283ff316e19b969a4
+vchelamkuri*{V%ehL|:}2936    0000682b64f5b3710f00a2e76854b23ea141b5bd9de58a91919a667c67faea7e
+vchelamkurim$1o!Ot3*b31907    00001bc7944515d364dcd995c1587e4e36cc37b0dfbdfae90202bf7ff79ae669
+vchelamkuri/pYd_/'-Jq57732    00008a6fd9950507155d6a8d39eda5ec2bc52e70a2c9d9f2017a86199ce36bee
+vchelamkurib$Hxlr~*<|74002    00001f700e4585d6ad9f7734470996cd24d9711a5296eed221ff45537e37a8e0
+vchelamkuri|o2cod+JT``LcE(`30422    0000a448884dd64cbd77d37c02429d7eb8284e3ffc4e357ccf928a7668c7ac03
+vchelamkuriV4}_*/qB@412EAEr50623    000096c777c6ba0ae8612e3b749d5529baa4bf25f91ea69bd87c5da71c6187c3
+vchelamkuri#2HYE~3.{P#z}i27062    000069d3cc6d07c27835d7e288e5524509b0d4cfb5fbdc481bc5a5af7deeea92
+vchelamkuri2u9au,jS87x:x"84412    0000d588b334f4e114397bbcabc4d92f69c492a02c77ebbc90c0cc148ff2bf86
+vchelamkuriB1s2n/g8s5I76479    0000eacbd6f9696d40859a725934ba9ebb664632990fa8dcd1a9abc5557ac608
+vchelamkuri+DJ3[bTD{oEd}7G@'%C70110    000079132dd73d5941dfc9e7354bad60842b50e478945c62d6c81f87fa8a4d36
+Shutting down server...
+[INFO] [09/18/2014 22:18:17.081] [ServerMinerSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Shutting down remote daemon.
+[INFO] [09/18/2014 22:18:17.086] [ServerMinerSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Remote daemon shut down; proceeding with flushing remote transports.
+[INFO] [09/18/2014 22:18:17.114] [ForkJoinPool-3-worker-15] [Remoting] Remoting shut down
+[INFO] [09/18/2014 22:18:17.114] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Remoting shut down.
+1804.470u 29.612s 4:35.62 665.4%    0+0k 0+456io 0pf+0w
+
+
+
+b) For k = 5
+------------
+
+time scala project1.scala 5
+
+[INFO] [09/18/2014 22:06:34.608] [main] [Remoting] Starting remoting
+[INFO] [09/18/2014 22:06:34.758] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://ServerMinerSystem@128.227.248.166:4455]
+[INFO] [09/18/2014 22:06:34.762] [main] [Remoting] Remoting now listens on addresses: [akka.tcp://ServerMinerSystem@128.227.248.166:4455]
+vchelamkuri?ROfM5P{gE93438    000003bbf5b4d002787d5534b90555468440335ab292ffd7814921a4cf4a8ecb
+vchelamkuri(Lf~-CS:Ekwpm93461    00000f0960e4e4b187fcac4cabbe9ea777e8e9d737752ab9692649243ff18b9b
+vchelamkuri{OOCi$)o9|LMpv=66870    00000956ca7aad288c76ed5a99986da663e2b19ce7c38ba5fa498e95ecc5cd89
+vchelamkuri`#%"B8mr_Jc4k.30352    00000c7aaaa69926a7c0045c697abd3a4d54c36ce6ca59d6e10594df644cdb14
+vchelamkuriC%Xf":EL;9)471396    000000520080e6957351d922a4c40188fd5779ac3ce833a450deedb582efeaaf
+vchelamkuri(Q4S?Gu{i''3%?oL(o~25316    00000afbae40cfb92ea409ac046fe6014806365696a579ab472133aa944815cd
+vchelamkuri_YRF2sFRc2[AK'd9]o81768    0000017e030c64cccd78bdb6859bf0268a194e0a631b48613859061bae06e6c0
+vchelamkuri`:o5PC;bJm;}Qi%PjP1653    0000000148eeadc2074ed52e4ff3ac593ffdd407c74690ae16e228dd225461c5
+vchelamkurigbD6h37L1D}JSLke58968    0000042faf05b741d5337f1de09a6d1ea9745a989af919f1bb5eeee4254163a2
+vchelamkuriT\ax-g/uKM[2{T]18005    0000070b0a1241dd488dc60156d2c80c89e303b8454706880aa1ec921e9444ec
+vchelamkurib-DkYK$t6k66974    0000031e74232b09e6c21e8c1b2d44b141ca30c167e907ea1682e738542b536e
+vchelamkuriP+]3\bC~-l(Ct;@[6!!86399    000008f263efb8b6e48c820980fa138296d6b9e68a380b9d7c053a68187f1964
+vchelamkuri(Q2FcrFQNHo73425    000002ffc900a51f1611ca394511ae58e8cf2bb382d7c33a75cb3d34b916c389
+vchelamkuri|B^azFAV5i['W84285    0000063bdbb1a6a662c045395a71ef221f6ab45ab800654e41bc79f890f4da5e
+vchelamkuriF1G?*yJY~NJKoz|U67280    0000061c6e2b14fc43106ca05b476c653bb2d0e4b60293c4d847c1bb693265b0
+vchelamkuriB|V+xpeKMfG^n273747    000001f63f6d4a8943314da71b60d6488e2719ec850626edbc13d25e7db33ffb
+vchelamkuriF=z,hN%6-Bg75461    0000079e9d036427e94028363b448d84fd570cc042fd540ca94c22056c94ccdf
+vchelamkuri"q2Un$sv=GwPL1661    000005a19c5f0c753e0354fabada8dd822ded9163420d78d83ac235922a7b912
+vchelamkuriP'UwzGX@zVNZ>n4`k@s30068    00000740394787c2ce5c1574559d613c7ec4d24fbfedf565ab1216bde5f927e4
+vchelamkuriJ2Jo!96|c3ra650499    00000de2290a41361140d8d8e36a63a8671df592ce7c24a54bf14c1a809085eb
+vchelamkuri]jen9&&l`A%aNljuou95803    000006d61faf846fbc8a1e08825339411f7b733d10f8c0bcff46d83736763289
+vchelamkuriA9Bej&Jp?^g`j99852    00000f3e4e6688a8f586c872c32477555b00b865d86271e1f999509c6916ee3e
+vchelamkuriXmcBE*Eq^tp19377    00000be026ae91a6c1995fd9360487b335bb95f124ce2625adb5a0a00ad23d0d
+vchelamkurit{47LLu_gP!SPM&353726    0000009fd5fad3290850e263db013b193134fccf7b8dcb108cccfd7a42f04351
+vchelamkuri`\laZ!$3)\K\5nsR27776    000007604bec0031cc092ac16808dde66ed8b88219c47ff991747ed80ab4cb73
+vchelamkuri...*S%_gHDb74879    0000093d15038c467b4da4549ff55ef0b7ea5a72a784deb1d29f42fe10f15b88
+vchelamkuri-::2rVWpBmwprf66419    00000fcccfb17c72c70715400883e970d2644baf5e793f465d5813c6610b945f
+vchelamkurij$E3#;*LbCf@`BKC1@72594    0000075b1a797801c62943b81fecb37b6ba53e6e2a51985ae86d2b496506ab96
+Shutting down server...
+[INFO] [09/18/2014 22:11:18.232] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Shutting down remote daemon.
+[INFO] [09/18/2014 22:11:18.234] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Remote daemon shut down; proceeding with flushing remote transports.
+[INFO] [09/18/2014 22:11:18.271] [ForkJoinPool-3-worker-15] [Remoting] Remoting shut down
+[INFO] [09/18/2014 22:11:18.272] [ServerMinerSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Remoting shut down.
+1801.475u 30.008s 4:44.49 643.7%    0+0k 0+488io 0pf+0w
+
+
+
+3) The running time for k = 4 and k = 5:
+----------------------------------------
+
+a) For k = 4
+------------
+
+Running time = 1804.470u 29.612s 4:35.62 665.4%    0+0k 0+456io 0pf+0w
+Number of cores used = (User CPU time + Sys CPU time)/Real time = (1804.470 + 29.612)/275 = 6.6693
+
+b) For k = 5
+------------
+
+Running time = 1801.475u 30.008s 4:44.49 643.7%    0+0k 0+488io 0pf+0w
+Number of cores used = (User CPU time + Sys CPU time)/Real time = (1801.475 + 30.008)/284 = 6.4488
+
+
+4) Coins with most 0s:
+----------------------
+
+We were able to find a total of 9 coins with 7 leading 0s in different attempts. Below are the coins. The character set, which we have used for the input strings, is the set of printable ASCII characters (ASCII 33 to ASCII 126).
+
+vchelamkuriiP+|B=o.9}J96'\c    000000043783c69af25dde458da03dce1f5a46774caab72c69e69b3e3ee52f8b
+vchelamkurikKQv@4#{@n[N9    00000008e3f55559f668bc48526c67be79c80a64421b3392ec763123a180d2dd
+vchelamkuri7~mi5#'tywNZ+r41939    0000000fb246751a4efc695f0d5d414ab76a61331a0e22785d5376b5c8bab0fe
+vchelamkuri`RQDlW#J&iQNm2/r76u3049    0000000d8979ed6bab17cc06ae65e918c82a268a0a8f55062242f5b94c505fc5
+vchelamkuri`t}ys57GVQVZz7h45906    00000002997dbe2fc8d990dd325ec62bc0620576eabed735d88ea01e9b392af2
+vchelamkuri:`*F:m`nW%Je^11877    0000000a0f50903735c6528afefc2551b8cdeac7e23372aa61e3a05ff88963ec
+vchelamkuria:gRD;/{zqr73666    00000006f1efd9d0c8d3ea4afdbfceada3b16b6e5b474c682db00288e913ef85
+vchelamkuri`:o5PC;bJm;}Qi%PjP1653    0000000148eeadc2074ed52e4ff3ac593ffdd407c74690ae16e228dd225461c5
+vchelamkuri0$}<vq::~9&VB~.1705    000000062cf401e61d899a78beec2e45e23eb8587e05979c46ee7a038ecf9c19
+
+
+5) The largest number of working machines used:
+-----------------------------------------------
+
+We ran our program on 8 machines simultaneously (i.e. 1 server and 7 clients) for k = 5. For this, we used the lin114-xx and lin116-xx machines in CISE Computer Lab. Below are the results from the server. The program, on each machine, ran for about 5 minutes.
+
+
+[INFO] [09/18/2014 21:57:10.965] [main] [Remoting] Starting remoting
+[INFO] [09/18/2014 21:57:11.120] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://ServerMinerSystem@128.227.248.166:4455]
+[INFO] [09/18/2014 21:57:11.122] [main] [Remoting] Remoting now listens on addresses: [akka.tcp://ServerMinerSystem@128.227.248.166:4455]
+Sending work...
+vchelamkuri3&N0WQ^4AH8p&t79290    000000d291a49b281e4043e013450195d60fda940188e7a65243ef5070868a1d
+Sending work...
+Sending work...
+Sending work...
+Sending work...
+Sending work...
+vchelamkuriq-^!ImH'hWeVz^L?15363    000004b2d654649492f60316e3cdf4e4125b75bb6c765aa431027f07adc2debd
+Sending work...
+vchelamkuriY:~m7+VH.=h,zD{Fb40781    0000038700e83b129055b007beadb1f038b2d2acb0f06e630d872dbcc5001d94
+vchelamkuri{1a:@7P_G@Q(qAL866484    000005989b2ab5f6f6a2b369fc34c4a77994bf98cee1ffa60d7d1206b564f1dc
+vchelamkuri&@g*3n{#&,q*eD1%^-T45744    000000a06f8db10983c19ff235c07fb8ed40a249c282ac41b35794b944de11b5
+vchelamkuriVT?;NL{ECti7\ABYHvY88893    00000359cf7d5e7d80a1da18e06d817e327c55777aa655da9fe31a8e78ceab21
+vchelamkuri;O\!^u4/SAoO3}87726    0000090d0fb5d001e5b1eb31e24fa0e6e2b2e9bbb60a8b79f483e19b5980d420
+vchelamkurio`ry%{,TEkq0%Bw68446    00000aebd3308350b37c8fa01b62e9b887bc40309a7a74b88555d92a02449941
+vchelamkuri?.@Y^K9qnfuwMnPp|D5472    0000086e2d03054f99eb03cd6a47da832c1576a8724b31a134034d847e0e5fdb
+vchelamkurifCk&Pj!&/pe-9S\VgE22979    000002fe371c95d86e0e96ab43c5c68dc93e33645eb2c9d6a54f2d8f8f487bce
+vchelamkurijf|D*0|$Wu'xtMl7943    00000f4f77140e07712454ce6c40151a4406472ac09843b9ef5c64557147fa7b
+vchelamkuritG{(*ZbNEG%90249    00000d95c4c050fa22b98c792988a663ffd6ab435ce5e8c401e7e4bd16c3ecc5
+vchelamkuriqh(T^H@[T.F13821    00000531e425debf411a91930f7fb21487a57fe3a1a6993d17acafcfd79dad8a
+vchelamkuri]x3k%p&VSs&6Iws/9913    0000085f616e0f0023ea762f26fbfb576db626b0c2f46bbe3dd151b800dcbb51
+vchelamkuri:aRZ""%rE0wR4|G&87282    00000da5fa3f33cc97e3588c30c10a1cc8c6525007c54221921f0d9ea4723562
+vchelamkuriWP"B^eD8n4*Clg8904    00000a5508c85ac13832092b24fe2e4fb94c86298416074235cde67189c16502
+vchelamkuri\4uX6#\Ul`88160    00000f3594adbad31f474344e47c7c59b3e35b1c1f7ee7a147b4f15047561e0d
+vchelamkuri|2Z}yN5vkFi4O~=4099    000006083b514a427dccb8a93807d933784abd05c80f23559a5f703cb2421459
+vchelamkuri(e"AxlX%xHPQ]57694    00000d28cdb8eb64ede5ede271785aeea04419f2cd4e1a08aa4852f29d7a7320
+vchelamkuriJnP;LOVqDapkE2H~49181    00000d2bc0d8f55b422813b1fda29bdab0a0c25b3f159ee32499c10417ad085e
+vchelamkuri:.[Vat7Epp"8264250    00000207faeec1b86c5b22fae1d1faf8fcf2e1036cc4239fc9286dcc7e99db01
+vchelamkuriwTD}AXh3}:BL<%q87756    0000074bf3ad52caff023d55b0f9cc610527dffda213b4df4ae91e6007211430
+vchelamkuriNxt7X*%g%t@DUVwQ~1u29611    00000d306d7daf347ea4bafd36b8e548e90aaec630efce867d27829962186bee
+vchelamkuriB4)=IjkF]$09wL27587    00000c49f46e8c7e5a9a95564536904b71826607bb56dcaf0e280b1c1b4fb8c5
+vchelamkurikk>_-.pY:JA87660    000001c69ecf70300c52da2842d4db55e627ca5532a2403499118b69f26c68cc
+vchelamkuriPWvGBih"LvRiv-K83692    00000ac36389df2d8bbabcba335a41cf5c62d3f0a2f138f5be3eda22641b41be
+vchelamkuri"B6(N:r*yf5027    00000fd1d453861d69ba5826680a444db6b74ec8550dff4712affef27b0c474f
+vchelamkuri;p/dWJY%:q>W:q:7iW43992    0000065963b6a98a6e01b11ea14d75bb738c3022a48205356fdc9b34b7a07c21
+vchelamkuriZlRRK}uO0=%n_?56010    00000bfe0aaa4ab46a14341517854441471df431746a69d49569b8fff4c15755
+vchelamkurihSu$"pmE}=[r"dP98076    00000e7b59cfef623e06708f88a6eb6360d73d624ad3724c2ed0775d6af64bdd
+vchelamkuriU*s#kS@=O~aGLexnNA65897    00000763ab60129ed45c72fae300f05c576bdc3e2babf3ce375718550b48a4a3
+vchelamkuri.P#r37s4d.45038    00000619aa26585889830623f7e4e8476ef2e10703b1cc59165bd226b263a628
+vchelamkuri*Th}v!i"&qGA{47248    00000c64d9504775866586719c91a278cde1d0035548757f356ebf58a3e39d5d
+vchelamkuriuTRpIs6Y2Wc$I}v50607    00000283b2ca8a63349ea9fde8f4e5b1bff59b910b44b384fd7da7414b5fb41d
+vchelamkuriFe(#H""rKh'N6w5044    00000cffd6032532d36f3d7570f7a6d74ea87a146193c41af764d1d55d0ad886
+vchelamkuri%-;Um:"iZp"+91490    000009ec790cf37cd9b60c35a01c520b634abebad5d4be09412be4ac336f01dc
+vchelamkurij{S,!dMQi#*=v&yVC@836    00000dd8bfc247275ec7fb1f5cc903179420fad21c787c1ab8b8ddc9e4665ecd
+vchelamkuriX,!O.U?Tq/144726    0000021a5325f1c0846223cf2c7010b3da859b51c5e94c8207fcd55bf9eb5bf6
+vchelamkuriRI#1$&P!/V?,tfa30076    00000c85dcd49399e2ba8b0039f6b24be9644d44c1b5cbd9edee26e0fc251698
+vchelamkurij.xNGSh)XarQ5$33426    00000951cae844d848b5c323e031d6c216c5d9421720a07f7d9f4f914dfb9df3
+vchelamkuria:gRD;/{zqr73666    00000006f1efd9d0c8d3ea4afdbfceada3b16b6e5b474c682db00288e913ef85
+vchelamkuriDhgu0BG!=Cz82651    0000011cc2065111362f3120bfb68796aae076e472e8f9287f0f5076fcac10f4
+vchelamkuri0e8&=u+#^uB)Fzi]!-64636    00000af535361746ff9cd4970ec57e45d81688629e61185f02838c9dfa809370
+vchelamkuriIBycX8<1H.q8QZL33358    000001a1bc7a3d4f9b05a99071889a9feb43b8801516a7a8e32a5fd898adc4b2
+vchelamkuri*+hAGZ^F5YM>0uYL/0D33821    00000c8b77e5f9118c114f4b6f36cb07695f7f995ea14b9c6112eb3ba7360f08
+vchelamkuriWkHi\ma1%yo67063    000006212293500f0907b8cdb0bc2eda9217394c0e7d6af4f9702c387209517d
+vchelamkurii]@V6b.Yxhi95665    000006adabb70699fcb782c90222fb350d9e92eab891ad5921a91536d25737df
+vchelamkuriD>tA:REpL0rC;Dt,;$14670    00000936616c4fdd64af69a3489db4449cac6302fc5e03a9c1a390933d974497
+vchelamkuri.Y`"(rB+V/L]eQ92076    000002dd4d9b15a7eabc05f1ac92d36a69698bd338b48ec6558168af8b8dfd3f
+vchelamkurimaZ[tZRwl(J141849    00000bf5565d1b218938cf4b22890ebce1e2308c62f5c51d5ef894e2e4d8f4da
+vchelamkuri7bg3NrKa\Jt\Kc#"56577    00000fbaedb9e2621b1d826be3ac0a6a10e68aea947955a3667cfff2aa77e7b5
+[ERROR] [09/18/2014 22:01:52.080] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.167%3A48611-0/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.167:48611]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.167:48611] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.167:48611
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+vchelamkuri_kEeJq[3z(]>r=n28060    0000002b9dd3c48ddfd4bb4f2699ae932660a78558332ef55ce6eea9458cd56f
+vchelamkuri0XA(+DuU}H[hh_s}53116    00000fc10c2a42f0d3b78fa3816df43740b2153cb30fb025e6f3bd89c62ad5b8
+vchelamkuri6M,i8:J~p'A^>]!H"?651681    00000858a0af799f5099103aedb332554ab99ad891a61a4b2e6589c86a37dc27
+vchelamkurihYX:,xjujNf784034    00000649f2bbc6f0fe7598d0c5f409d6748db4e2814455ee0dcd39531737771d
+vchelamkuri6U>-Q()P~?7Z+d01U42334    00000f6a3e02ffbea5da617b51d76095eb51a3b07d59de84568622f635c23417
+vchelamkuriHn*x"C\*-{Udv)<R5<I64589    000007327403214e22545e56ad74e3bce5197b8c342fc900e64e1583b58cb6c9
+vchelamkuri)GZU'>Q[~B97443    000008740dc493310b2ae76d1d5c686ed30fc4d7a97255ff53d2abd5c74a93f1
+vchelamkurim+JoBKTT$8=Zm5487    00000360bb48195b5cba408c91f351eba20e26f7c4a322e255d026454c3d642e
+vchelamkuris&qGXI&\+>Rc66146    00000efcfa64e3f6d5121cbbca07a2005fb4fa74ee19e2b2623b8c95e44e3fee
+vchelamkuri5(&GiJ<nDk[1Fqo*v51160    00000487cbdcc9c1c8fc6bc625f56f8d48d3df55b6790a09a77afff8b30ff266
+vchelamkuriJ##36x(tI\98486    0000003bda32d24257c3b33ffa203df6e551b9aaee7426fb64618b411f99989a
+vchelamkuriN#oY2aRbP@75565    000008c5e24ec3368b8ac6ffb9368215b0b7c102982f920374746df36524d157
+vchelamkurisy)eZ&hg<-xX48351    000004e481b76a754b9d4671baf8bdcf4de67f86cb62fe2d180e402af203f6fd
+vchelamkuriXJ5SP1I"civn]*kUz55259    000005fad53a54239922b42ebb4e9e90d0dfd76061d3219450887a6126aa0fd1
+vchelamkurin,^6=$ds=D<g;Vvb13957    00000aa2cfeeda0e4660266a8c4c8494b3637058742d4e41284a533c5d326c02
+vchelamkurii%<rvRN2r*]~/[@q5UG92308    00000042d62a68ed8e1b070dee8f52904868ed06cf528ab66820f310f0ae85c4
+vchelamkuri%."{TqY_Zhf)z,~)76596    000006de33d6596abf96062dbfe64365f1e37c07880ef0ece086739ba7ef76b0
+vchelamkuriti>[D?l*w(XEQYO80715    000003c4595dc344ee17b36a0c5a14ecd157587c70d3b92dd489a5e0024311f2
+vchelamkuriPhR~l!OT@gI]u65724    000006f1508e350e41c0823ac1b682ccfbe5432e6b44f0511d09c8728237d5de
+vchelamkuriP5-L0CW|\IZPdNBJI016148    000009185cb05b2b754a2c518f97087a05804c29a02ee6012f25219e45f807bd
+vchelamkuri/4]MZ{B0tK@@88575    0000096c034d2520a44681c60a0044022ea691e4f5a1331d53d2995a6492893e
+vchelamkuri)`W~77t|@er12(MG57S25541    00000a0c0eefaea4439a505ea60b91734c1b16a317452c0a2002642acd4725e0
+vchelamkuri{7zO4FukGUTleq6.Lk41350    00000a5ebda2767722f6f24e18df49a074beeceeca0c07bdba80549a24323db8
+vchelamkuriqZO-,E|-%M`q-v('60275    00000869f2e16d92bd22d878dbaf8982b5b6edbdf67951a32d51098708b9ce80
+vchelamkuriLH4jt}m"%b|#=".x+;658096    00000ed6e092a4841dad5e9b0e18eda81ec38ad5fb3f4e121a38ba005d8ae0f4
+vchelamkuri6_Y*#)yw+~_~468902    00000edda920cc7ab44966dc59c26ee10270553c314bd83535296c1ca3656932
+vchelamkuri"v{@}M.U?u-q9wF~89377    000008601185ceb73534e3ac59351b976f4d57f5def2d5efbcc195cf09075d71
+vchelamkuri@V2*u+4GyD6.~81983    000006ca31f1a022fb96ad890cc3ca66eadffd8f62bb5c801d52dc5723f949f3
+vchelamkuri\af"1;0qh=42174    00000875b7599f022e81f94486e859ae9f0d6e8ab9f46452138e35b86e87fa9a
+vchelamkuriYe0DsKI7J;KfN86173    00000f45631b61fdf0353eefe541a4f9844afdf4bafd376ade091e3f68b83d9f
+vchelamkuri%h5VP_9M=?r-;~,X'nM3247    000001bee78ee7d621cff8a6871c766571339dd5555423b1f0dd23f6a024b082
+[ERROR] [09/18/2014 22:02:05.712] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.198%3A41841-3/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.198:41841]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.198:41841] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.198:41841
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+vchelamkuri#t>@Bpe]KyZG"3fE58093    00000aec60c4e4e85ef6c5f5fe2bcf2341569656bee2626156cfa64ceaac1548
+vchelamkuri|DMzz)n/a:*Om1+?}54573    00000c4bda311fe2ce13d6cc4d9d1175ea872ef779ff2e6047d3b0b9164615d4
+vchelamkuriJ=3j4@z[6G70304    000009738641ce18037081ba693af7a20f73b15e245284aa7b569179506810b1
+vchelamkuri{g&j8^wa:-giZcwk!t62350    00000df589f93a65c78b47479db1a477f2f52a22acf07f3613d56fb498b40f4f
+[ERROR] [09/18/2014 22:02:07.551] [ServerMinerSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.196%3A36870-1/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.196:36870]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.196:36870] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.196:36870
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+vchelamkuri_D<VN+^f3e}83090    0000096562a703ddc7d6c472660a032685d98700960574bdc3669a18764a59dd
+vchelamkuriaKKH?]yz-5S+w?[%499621    00000a93ae62aeefc1ba3c250d91d6fe9c788027132692542267abaf5ef66acf
+vchelamkurii7uXwxS;gH=nl=Om89535    000000317b8524008f427f314e8e0833f37a62296443f42fdbb3e37032ee3e18
+vchelamkurin]s'B^5``^W8,E:l_91189    000004a8ad95a25735185e6fde91d422f358416207811adb884bfa7319992ed0
+vchelamkurimSI0.Q2=\#ifi8`{-,V60787    000005f7b5ed0bd5a3eaa8469002830c84074e55b2bd0583a308187cd01fdfdb
+vchelamkurizp=9<:p$/&$j+93357    0000094c3bb283b62766a228d8e1b10190883d5d8803eed2c9d11b05d0788cd3
+vchelamkuri=kIJqz"1zr}UjM54704    000000304a21316abf925cca401b2c1424405922ab787fa5b512ba65b6f1267b
+vchelamkuriwXIUI:Z0h,X8o>.;84661    00000436ca1585d6ca8ba4b576bf03212b7e6823efad9290ce8da4b9c2c10dc7
+vchelamkurif{9htvmnhse~,81702    00000d12a0d949b44380ad6040cd12c9cebb2a81a89a85d5be446f61301e1b3f
+vchelamkuri*8^(39G7D2NOeiW,Z^@32932    00000acb5e45a8f1bb16685625fb4d82cd28eb4db6d11b1dd19c24ad79272d68
+vchelamkurido)_a[z<)jDex(VTp$X9895    00000d4f1fd034f85194868e3b55fa07f89f24b13cb86c1ab215752cd4b2cee2
+vchelamkuriA*s0CCa]c(20776    00000c9067d97a930e33fe91a8195e7c9e51c6b4b8219d3893b7980240faba9f
+vchelamkuri6S[RsoZG,se8oMbVRx98960    00000596c0481c400cb3300921ed23d02b16c928f7b828614aed7300a0d28f44
+vchelamkuriF*W}Z#{c)223568    00000e75495abe8cae35cf8008ddebd3a04b6ad2aaba1f4075d49c40b3f49106
+vchelamkuriIQl1@LW_S<.F?91033    00000c0320bf1bd4bf2a53f12efe4e07d6c180e9141e84d2058285dcb2a85b9f
+vchelamkuri,G2(p|'NEPT6166    00000b5130bec5978bf96fa813dfe72361c873c43cdebe24c474d1449c587d17
+vchelamkurij{=-*!+;n@t]VutI{C93683    00000b59642c270f3b8e78393af583cbc8494c2d370993ddcb6c4259d1e99959
+vchelamkuri'Bcra~V~|N/9$p46873    000000d07dc902b4bf7905084415b26ead1def528eda9cb15b5bae0e322d2ca4
+vchelamkuribpww:/FHgj4rG_q371386    00000489a78e05b60ddd41acbe7fab1e73d038969aa620bcd1173812725a865d
+vchelamkuri)l{kuCc,Yo=a57893    000003253b7db48705798db9a51723c290eab9e2119d6e14b6f0ebd7842fe47d
+vchelamkuri,tN!<854?q80924    000007995e0ce26a327fed5243414f12b3ae45174a1f03261bef3d5f924179f8
+vchelamkurimb{(~F2%\D%=T(f51003    00000bc181a4e3dd3c275a983b700dd6be3546d05ef97bfc3f411ba03a5da973
+vchelamkuribAXt-pA_j|3;69561    00000c34ae493e4f7ee51694be930873618a2a6962f566c29c62aff412ae156d
+vchelamkuri>5-|B*kLHHqv|19779    00000944c20a5eb366c516bc425c47d433bcd337dcc93889a53f2f4c4780132b
+vchelamkurif>OhXSUzrx2B#85158    00000705955b4f48018ee44f26ad5cb79491ad2dde4b325829d68bacb5fe536d
+vchelamkuri>dv(f_&4%CHl:);Z33282    00000f66592ca33a5a44f65ca28fba45e6ba37fa588ecf5f409a27a4a87a8b74
+vchelamkuri-Z.[QjEYiZgq89525    0000096017eedb9a704fb3e99d72f21329d4b634391a02fa6f073ad6213a6ee2
+vchelamkurib6QTl-yeWtr[8179    00000ba5a1216816d72dab70eb5101348cddf9af9fe96ee413d4f6d3cea5319b
+vchelamkuri&Pl'NChL!P19603    00000cee7d859218928f68fb7822a624362bc6f937d56e4ec338e1ac60df053e
+vchelamkuri0e8-x><}@=zyH*c17184    000006b1d8881646d331c13a304fb0bc810b551a8ccd9a12672292c85a22f927
+vchelamkuril}w}nbaY(%2iQ17168    000008f92fe22899f3b0668230f54c4397fcd651ce4f9e945a1dfc9f862fd9b4
+vchelamkuriYuICNx@yg>78688    0000018e3adce99e3404309b9ed9bf3298017ff70cef58d7f9700a6273757df4
+vchelamkuri<j/`*B`{h3jXjDH30915    00000058865b50d517a955dbf20f089ffed384132d06239eb4eed6836fb1a116
+vchelamkuriuDjv5\Y8OCQ(1S(76415    00000c5df2971c295c3d3ba57010dc199e0c1ad5208318aa571e11b279b885f5
+vchelamkuri"IA->M?%0GZ20f;z58067    0000082432afa7fc2d816eb4e75db65ac41eed276c053e0543f82d20b9e83dad
+vchelamkuri/ms%YbQ=7dg9*ZTN^1399    00000752577bde9fe103a4103d095fd5e4a7aa6a6d2745e5a24e73fce8bf5d24
+vchelamkuri3zT]5:?8MZw5`485339    0000051b5faa7c46aac2d33df412dd020f87bf9707d9a8bc5bf7933464014f02
+vchelamkuri%"A3V8n?H9^w0#v91941    0000059839ee313c6df66e57c8f3c0bfa02fa7e9a72f91173fb4211c4416d9c0
+vchelamkuri,iR9B!@lK\<Q\XW38845    00000bcfb060c37db82748dd4eeb3eab7ce43d80da04633a991e384da9adcb34
+vchelamkuri5\+t9$/vyv,{E*'zp/h31827    0000030c17333d92b9b8feaefea7c55bbdddf3c269f1543ba7ac87d0f09cd6be
+vchelamkuritFiH$BpQ@MxKMx196527    000002989b6ddc22865cf90cccd6691787c89428c67454a410ef5a79b68960bd
+vchelamkuri{$VN&)O>B+bU[29449    00000efff907a17f9b7cd9d48bf9fca72f89916f310b99a5cb1f43fe9142fdcd
+vchelamkuritK3-${+,@~A65506    000003caae4d4639a6c466142db021ec313826fd2ea15c78475ec62cf13985f1
+vchelamkuriosMP,&I=]f69398    000001298ea3bc99716e6539df904ffea0833dfdea98e985f094450865c2f2b7
+vchelamkurib[m}sD34BYX7[Paru6f54892    00000e8f1aad394e6dfb48f9754a455fc648a9255c04d9090bc0512d2a9a5ce9
+vchelamkurishmR($MS,PSSo;`[67492    00000ebf32a5dbaaf83fc7306ac75db9820010310aee9d7dcea3d55a91c6b0f6
+vchelamkuri>oEkx,BSAEeK=9zTRn]4780    00000a8a72ac7b14d126a918c14228bfe12c92bb856a5e67da01993363cb6d09
+vchelamkuri,I]}]u,nlcdUHnz68316    00000fd413c78e0dfa1c6d875d70941b44b762f29afb11a453824355b772de5a
+vchelamkuri|bAU.Aeb[L&E)5r;U80165    000005671cca185fd2fe0751d39dcfff2a725c31ce9469baa300d82286d1fbbc
+vchelamkuri^+45_\bR5b!xCY}46933    000009b00071b2f4dbdcc5402aa3438ee4230bd197184c136d6f3c5ea483b8e4
+vchelamkuri/^\83:k{w8024154    0000086f1523688c58c6176fd06a61d5468e4be9fa20a306910f702163327b7a
+vchelamkuri^M}@geahsnL375578    000009146af15498a065450ffc636986482f5b96b493378127cd69786563b344
+vchelamkuriH[@bo)kZ+1{3g_!ZJt43429    000001aa22436b984ddc37cb0e78e767d3f502f020981d1b1c361e1f181499af
+vchelamkuriN19w>l8)/ciOS37710    000001a4c91c84edfdaf75cd5488a96aca2b6f9cc1741a425cd74d6562e0dc05
+vchelamkuri@,`omxtmY}p/93195    000007dfa692cc45059fc0341fcc8222af4c0ae0ee423ba6bfb5bb370a55ac9f
+vchelamkuri%zE/zf6*|Otm_zlB(664666    0000025b2d151573be02e27fff6c477fc2e758a12b22bcb5e794e7c34bfd6ea2
+vchelamkuri_:8q([p5~b47535    00000c9f3fc946fb01debd4d7eec35c8f70f9d44e7ef95bcd3d1a42b4ff18347
+vchelamkuri5Oa@;`j4S856951    00000b6400151612b8027abdf305c8c803dbf72a055fb6449ca4c6dc436ddd7e
+vchelamkuribw?JB1(6ho(~L54796    00000f891cc05ef37ec613f6e25c7a8e10e2ff88f6ba87b81ac092d305ac40c2
+vchelamkuritqW{H/p2.?gpwL44905    0000079854fbd449865a97190fa772eec0cdbc0fb396a4e221bfb4524518364b
+vchelamkurih~riwY&X(%49885    00000d6885084df9e67ed0cc96044c519deb447bfea7722c4502358a2a329913
+vchelamkuriA&Qm8pq_|)V+&h78112    00000985a60d07c07ac51dab99be46a488fd2c27e12cbf7f7b6c04a68e5db268
+vchelamkuriJR=z)<Nh#'UQ/W%mh87146    00000b0139f40afbfebde8a90fa966ee0133db589a05547036578f299ed3c734
+vchelamkuriY@/?R'3UMZ8348843    00000dccf98bdad8da340c84e4e75710235e18fa52963015952e5fd3cd6cff7b
+[ERROR] [09/18/2014 22:02:11.168] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.200%3A45622-4/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.200:45622]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.200:45622] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.200:45622
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+vchelamkurikcleyt%WMVBG?427971    000001f2dd27859a830be299e14808f00843d066d07e7c314c5b957d5bc2f266
+vchelamkuri[dl}ywtNo}l|?;P%36448    00000e1155eead5e732e81c65e3223a136e9e8ac8a5dd6d4b5444250661dadd3
+vchelamkuri>S~QXL9{U2l.YV26873    0000056d91f6b5694fef2caa7e61765103ca9bb82b6d0218d13ea814807b6e7d
+vchelamkuriOG>K\/.vc_b(:g!'h8C19056    000007515404142a83d11e4eeef748f668bc6237be42a9c4af375d449b5cb5d6
+vchelamkuri;3z"LW<hk+74356    00000d3e65164a8b463f6b22a2fee3ee6aae5dd9f5776b2ccb5f9fab7b4360a6
+vchelamkuri`Jfa2B77?YE?~43981    000006772eb5a5dca4763ccfed5c245c008b66014aaa6507ac0bde7c8007f5b9
+vchelamkuri{d%ju{f*,?mqJB3J44050    00000f863bb8544e8b4321581af5be7215733b8c8fcb577c6a780d7ec905e26e
+vchelamkuriDxqvfEvF,&29929    000004ebce313f3ba88098c54ce863ab1a22d901ce0d11cc1c4fee021181ab23
+vchelamkuri>HfacK^FoL&E6-ro47513    000009f36b9f5e9f38fe572b9809cce0a4fe98090e7c72176140dac7067e90e1
+vchelamkuri0:u6t2Dr\fOexeo3^R68373    00000dd24002e2407e50d402f1375fa7715511009fd8839863af036af40a8d42
+vchelamkurih=~G<aQy.]*81225    0000068ed15c96532293032f65011c729dca3daaf8d03d680df505ade01dd4b9
+vchelamkuribK8%8{H#I=@39613    00000e6a8403fcaecd876fe502e762838a30cd22fe1dc7f52b1187a09cb9cf17
+vchelamkuridixCF)eqU]AU1N+s[42863    0000014268f6fdd42a29f55d22c6c31bcec3ec2565c3073afb8ca3b2edc8055e
+vchelamkuri<w9**$AYuj5F~2toY63306    00000582ad05ee861c96e1b87344e471f61673540c54395ff392681e8b834cfb
+vchelamkuria[sYeQB%$N|c-c55766    000000a6663a6b3679dab1dd4a98d469fa93634df68ae1bf6f1f062116dc3f36
+vchelamkuri'R]hXC#>p_AC8\~x161604    00000143279a77385854e9c7e8ffbea1fdfa739d6ed24ec7ee6b8b06cd8fcb59
+vchelamkuri'pbST$-g'>WaxO\}o24811    0000068d3b655708d85bcc648532cc812b2bc7334dd13160506b33e578393f7b
+vchelamkuri1aT>.H\r}1ndv'11197    00000db0665c43a170d2be1ab1af4c1cb965397ff8149c184b177631bb326e0d
+vchelamkurit\Sm+NNy!*60410    00000bae35350e9b032d9193eab95698f2135eaeaa658d13ceeaf82a779e5338
+vchelamkuriHTc7>D-8PRw(-D'oT48121    00000d161d3a827a5848ae6d8715c9bdcf61f172d5a25c635835a411f4c33bd8
+vchelamkurisINj(`05/c\XC24184    000005975dc3b8603128cced903d3eb2c8bd9606b7ceed635981be6a11121cb4
+vchelamkuriiz_4;I=@kC0%W93210    0000095e1167f9bea01d19a4be116573520b2a6304bcb39106fcbed1ced407a4
+vchelamkuri(p$-+*Ev|rns?*;T=P365925    000002605646517bc53859b917f77a3a148b75a6c63532e91985f632e82dd0bc
+vchelamkurisg)<;'*K,*`6$,B_~+(69502    00000a167044f7dd543f6a6353c99e1a1cfb6d93d00715fa9272e4114fe79c43
+vchelamkuri"!wb,F`Xj/gM,}H82963    00000605d1e41a2d2bfc5f706f431f5cd512b4abf3eeffa6e9f1673b217bbe8d
+[ERROR] [09/18/2014 22:02:13.788] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.203%3A46536-6/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.203:46536]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.203:46536] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.203:46536
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+vchelamkuriT^4p"WHA/:pL11325    0000060a6603f3752452d1236eb227716d1df66150611a99710cccc67aa10046
+vchelamkurit.5F)[0~/Q38658    000003453487551b4ffb9c381f844a657ba5c32837bde4714eee6706c4a709b9
+vchelamkuriw7Y`ShVGvX%Dem?W@a"65608    00000c2fda765c991321ebc2b1a0a41cc0e63f6b9fe68a6a09e766e72a8eac51
+vchelamkurii./[KUOZ/;*A~"33133    0000024c33f77987604158318236d2fb33f0d2c3c51ead6b9c116d8b403f81a6
+vchelamkuri\jA}QL(#6&q8&"d.34081    00000f05cec2679bf96473f73063aeec0ce8cd9ebe617129a192e776a3d6fdd1
+vchelamkuri<nJX1u#f!W]]fC2835    00000546366463f4f5d76cf406569b45e55dad60a47081d3471877ef6f818184
+vchelamkuri/b0\w%x~zcwKO/!';%79898    00000c7488b6f8497253e9e2a0c73b1269e0a3b839b2bb0de3b94114970ea184
+vchelamkurigW,,m6bRm%C6u<\hs88959    00000f1ad6e8f6066d336b8ed8ab9dc8973dbde41e50f8d3080be187d026956e
+vchelamkuriaUUzf*T1+C@O?,GgMS57477    000008d6c0a3ba673090e7f109dfc5ffdcd9b392742e0dbf437c8aea94fdeb74
+vchelamkuriS~/M-.dW#&2D?11510    000007cd404110ee2cd04969d5b12ba87189a61d5653568c1f1852d1a1e7fb96
+vchelamkurickGGA.??ZIZ/RQz&k~e26097    000009b967008cc6ebde8266956c1b7fb7d6da98ccfcd8743f179ccb278c4d6e
+vchelamkuriPM6a<Yh'<1?98@m|60211    0000007f1215f5f8121671f41234dbe65dad2f4088551dd7598e9d01074ed00f
+vchelamkuriR&&)W3#$PHCN=k6234    0000039aad5c0ee8c288213c2bb927e3af54cdb4c8cb42242baf216dffa40bb8
+vchelamkurik~Vl6kOe9n=11458    00000898d898577135e9773ffcd1ea95aa0bdae521a6ac7bf72f017e1eb51a9f
+vchelamkuri*j<I}.i!R&kyO5862    0000010d1d33fa5b151f33096aaaecffcf724aac0f7aeefe714c175ec776d715
+vchelamkuri=E=sX;kM<@95586    000006e72e2f18677e37032fd82a394522af408eff900277640793843c8509cb
+vchelamkuri7CPR++KkAz3358161    0000081818b28a9de9fe21ba77dc218edbbb38fc4baca212c9ec3fed2509b9f0
+vchelamkuri99gzKh|#|/gED>bIjXA76435    0000088414b18931ac0eb92d579ffb8bed685609357ae64d36a118a82e7adc1d
+vchelamkurife"`!1#/@h54658    00000384eb7df3c77558b2d0a3d041ebcb56e740eccbee3836a7a745ef173521
+vchelamkuri&NA1p%:p<oOz>LV~1E36886    00000f7b75640a0611cce4c4b345d2766611cb232b3e402cd5fc252ee68d8a9b
+vchelamkuri$jypTf.I%d2l7>2796    0000080d7dab1388d4ae04c205f42c2936cf6eb8c57df3df1b5ef0b9c32d2c96
+vchelamkuri/yTv+h&{6t;H59375    0000099c5055fa3d903471578a981f9a73ff27575b146c50fcfef461a11fcefa
+vchelamkuriC#O;%}L{z9Rc86055    000007499b657e324cb584bea6df8291e72110931da088572caaac110b11d820
+vchelamkuriWA0~$g1!afUf|V0v85211    0000097a6effa1795be549d9022150895f113890cc1822025f5f405e587ee879
+vchelamkuri.:{./VC@:Ju]s-[t]~(31028    0000076928683502b4d66791f0bfe022bc48a184273be2d899c1d223dc6ad5f1
+vchelamkuri*[iEZ~;,5Mu==2>=xc6007    00000ba31d65ff6fd28bab41f07039a8d7e2e0947c5ed77769fc24cead32181c
+vchelamkurip9TO`hWmv5w24]nR0Lw23829    00000790fa83d16cde1f1838513a43ac2f06372b3692e0d8d9341e2b8056fb72
+vchelamkuriy;WjVXQ<n#|Hy|65866    00000dec0be065db4768a60843e5d3b08fb4dcaa65967bbad125343de37546fa
+vchelamkuriFC?2D;l]s#E4!96742    00000f82f89d5d4cc34faa0a87fc8017d551a70c2f9dcf2d012e99b02aa582bb
+vchelamkuriE5XZSq36)n&va4848    000007653017aae06acc53093fc4ce0e321807902efb0e87aabdbf2032be6864
+vchelamkuri4s<'Q=YBkeJDVP645    00000107faca46c33e321d9e0fb94e14a50e4b63c2529c64fa8b93c7129eb3e7
+vchelamkuri=z*WHtKMjo|*-t73986    00000c4926d9ae8d26f014d6ebc176f0b59677d055801fbd8170dd2ff4d7385b
+[ERROR] [09/18/2014 22:02:17.783] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.202%3A41477-5/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.202:41477]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.202:41477] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.202:41477
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+vchelamkuri$sVA[p537V!8pNy20240    00000e81f08e0c4f07db9837daf603c867ccaae56a9faf4a1d8e2cf1801e430e
+vchelamkurivod<f(Ts}q64611    0000077377afdf60fd6e1c55a595391a8071907260c2e013ac0f0601650f54a8
+vchelamkuriPTh$X_368988475    0000005fae2929a8a151fc654c0456ee0c06a18e6dd9e0503fda07dd03ef5e01
+vchelamkurip(-sF*?HRMEby>XS41402    000004d3b28b1b1ff480a781e7c7591268d2def98fc48fb41de388226c4712dd
+vchelamkuriyaBG}]j\g5YRZ7&45945    00000525a980321d501acc08b3254dfe78422745658ccaf5d6b16c233e3e9bda
+vchelamkurilPOyOaNZvj_22983    00000cd6277dfd6d8978e17f9358f8706c5729f824addf3eccae4ef6b8a21d18
+vchelamkuri?RAv+5J{N=O5a28326    000001b52feb5b8aa705b3a8e52976445a68a62544860c12dc2d4ca61c654c31
+vchelamkuriK:b&i|Ntok\Hv55298    00000553e7e0d9491afa1a5475ec490778e17b5bfff5f61fbfc1ce3cec13eb14
+vchelamkuritB#3K%=DH0Ff$$85813    00000b1b3cd06632f54cb4973b5c64c27d0844ed1ebd98852dd63199c50afe59
+vchelamkurinl_D?_A}O4Cct9G^X837705    000006ecf1655606a4e5d7c078e1c0cd0ed21ebc844eb975439ca113bf604dff
+vchelamkuri_74VcN}hq077353    00000db18b2a78930c06263d007d05c6b055c5ea7c232752021fd20bfdb2d909
+vchelamkuriSk0|o9o@{E40722    00000d0985cbea6d992219588ac8d12bf902d1e3194718d1aae8bc167f5e52e2
+vchelamkuri<NH3f!s%2q_/u6h82362    0000014bbe749acea6f0da85d335201e84c7dd49713eca230c405e3d8e7d0d20
+vchelamkuri`}jEy2'zmG|;838835    000000dd5f096943cba7592bf6f2a8f6897cb7b02563b3dd117ab38de1ca38a0
+vchelamkuris}1=y.HA4K75175    00000e0a9f077613e5b8cfe2acec5ab282b66a5e721f12369fbb392c530e132b
+vchelamkurih8_x;%m,R.]Q?c2^!s44074    000004fb28514db6a2cf7770339881921918c489ce58aaea5298aea381e9e264
+vchelamkuri1p3l;hlo*O6TKrsu9401    0000070668bfc44f4577d101e08796145141073c288608bd0add113397e8929b
+vchelamkuri{9}bS{4&D19~pj6913    0000068b6fccd0e845184a127aa7180ef9c05e64e27ccf6e3ca63958fe02c155
+vchelamkuri7Y{"ptWKwG|D}v+Ign092238    000005a8a89cadd3360734653feb78d2dc8a5877664329e7b7fc6719cc09dd55
+vchelamkuri}q:9u3E`P,t83431    00000f91dc93545226c82eacd4d9e44e0f41ab40dee74fe2fcf532c931278670
+vchelamkuriHS5F28Ds*T0}R>vm49785    00000a5f19010587aa19848b418a9914a409d5927b9e6dc22148afa019d7f343
+vchelamkuriIuB?1K1$08,Auf75149    000008c67d3c66fd0bcefac7d2abd993e1f9167b2855d0027d594f6d2a408eb8
+vchelamkuri3P0?}uWd`SE5Yw|M66570    000000b3e51d90c232d86844b01bddb640ab0206209544bd0e040f45bb577d55
+vchelamkuria|wZ(qrPf>20532    00000dc408cb3b71028d825adefebf0d6e2ae3dd5a19efe5a377374f1a77cf2e
+vchelamkuriM&pU$J'oV~{;'k-[A;n40318    00000bb8aacc2f69e9584e10ceec2ea49c4796bff4bc8106a6e4c18272177d70
+vchelamkuri~Aj%A=KSIzs57x50245    0000066b568130e198dc4134ecf4ef754d6e8b7dbbf703ed08df39436a6a3fff
+vchelamkuriaud=zphbe]15995    0000044db0f62b09cba810345b95b39465fafb6996bb6b69ef7817cde97a8d3d
+vchelamkuriWn#oriW|0%@t]j26751    000000b36f793fd7d94b6c36c2a6a9a49e0b2c865957d2798c784ad8d76758e1
+vchelamkuriU8KE;SQCr{h869913    000007dd408138727184b3c185ddcb4a25e1f72da13c8604127cd645903fb510
+vchelamkurich*~q>`vZgkC39925    00000c9129690b650cfa7d1b187e813c03ccfd9abf5df94cc6e5f77d991f3b71
+vchelamkuri!7A1Y)meAU66273    00000f8565f63cc6e0ac1b356edc8937e4222c625faa86d2cc5e2726f944cf9f
+Shutting down server...
+[INFO] [09/18/2014 22:02:35.489] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Shutting down remote daemon.
+[INFO] [09/18/2014 22:02:35.492] [ServerMinerSystem-akka.remote.default-remote-dispatcher-5] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Remote daemon shut down; proceeding with flushing remote transports.
+[ERROR] [09/18/2014 22:02:35.492] [ServerMinerSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClientMinerSystem%40128.227.248.197%3A54905-2/endpointWriter] AssociationError [akka.tcp://ServerMinerSystem@128.227.248.166:4455] <- [akka.tcp://ClientMinerSystem@128.227.248.197:54905]: Error [Shut down address: akka.tcp://ClientMinerSystem@128.227.248.197:54905] [
+akka.remote.ShutDownAssociation: Shut down address: akka.tcp://ClientMinerSystem@128.227.248.197:54905
+Caused by: akka.remote.transport.Transport$InvalidAssociationException: The remote system terminated the association because it is shutting down.
+]
+[INFO] [09/18/2014 22:02:35.516] [ForkJoinPool-3-worker-15] [Remoting] Remoting shut down
+[INFO] [09/18/2014 22:02:35.517] [ServerMinerSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ServerMinerSystem@128.227.248.166:4455/system/remoting-terminator] Remoting shut down.
+2017.435u 29.570s 5:25.37 629.1%    0+0k 200+600io 0pf+0w
+
+
+6) Instructions for building and running the program in Linux environment:
+--------------------------------------------------------------------------
+
+Set up the required folder structure:
+-------------------------------------
+a) In the Linux environment, create a folder called Project1.
+b) Download Akka 2.3.6 distribution for Scala 2.11. Unzip it and copy the contents from "akka_2.11-2.3.6\lib" folder to Project1 folder.
+c) Download scala-2.11.2 and extract it into Project1 folder.
+d) Place project1.scala file in Project1 folder.
+e) Place application.conf file in "Project1\scala-2.11.2\bin" folder. 
+ 
+To build project1.scala:
+------------------------
+a) Open command prompt.
+b) Navigate to "Project1\scala-2.11.2\bin" path and issue the following command:
+./scalac -cp "../../akka/*:../../scala-library-2.11.2.jar:." ../../project1.scala
+
+To run project1.scala as server:
+--------------------------------
+a) Change the hostname in application.conf file to the server's IP Address. Leave the port number as it is.
+b) Open command prompt.
+c) Navigate to "Project1\scala-2.11.2\bin" path and issue the following command. Here, k indicates the required number of leading 0s:
+./scala -cp "../../akka/*:../../scala-library-2.11.2.jar:." project1 k
+
+To run project1.scala as client:
+--------------------------------
+a) Change the hostname in application.conf file to the clients's IP Address and change the port number to 0.
+b) Open command prompt.
+c) Navigate to "Project1\scala-2.11.2\bin" path and issue the following command:
+./scala -cp "../../akka/*:../../scala-library-2.11.2.jar:." project1 <server ip address>
+
